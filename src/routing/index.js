@@ -18,7 +18,8 @@ const CustomDefaultTheme = {
         ...NavigationDefaultTheme.colors,
         ...PaperDefaultTheme.colors,
         background: '#ffffff',
-        text: '#333333'
+        text: '#333333',
+        themeColor: '#009387'
     }
 }
 
@@ -26,7 +27,7 @@ const Routing = () => {
 
     return (
         <PaperProvider theme={CustomDefaultTheme}>
-            <NavigationContainer >
+            <NavigationContainer theme={CustomDefaultTheme}>
                 <Drawer.Navigator
                     initialRouteName="Home"
                     drawerContent={props => <DrawerContent {...props} />}
