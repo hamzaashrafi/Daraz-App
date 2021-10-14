@@ -1,7 +1,7 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import HomeScreen from './HomeScreen';
+import HomeScreen from './Home';
 import DetailsScreen from './DetailsScreen';
 import ExploreScreen from './ExploreScreen';
 import ProfileScreen from './ProfileScreen';
@@ -22,12 +22,12 @@ const MainTabScreen = () => {
             }}
         />
         <Tab.Screen
-            name="Notifications"
+            name="Search"
             component={DetailsScreen}
             options={{
-                tabBarLabel: 'Updates',
+                tabBarLabel: 'Search',
                 // tabBarColor: colors.themeColor,
-                tabBarIcon: ({ color }) => (<Icon name="ios-notifications" color={color} size={26} />)
+                tabBarIcon: ({ color }) => (<Icon name="ios-search" color={color} size={26} />)
             }}
         />
         <Tab.Screen
@@ -40,12 +40,21 @@ const MainTabScreen = () => {
             }}
         />
         <Tab.Screen
-            name="Explore"
+            name="Favourite"
+            component={ProfileScreen}
+            options={{
+                tabBarLabel: 'Favourite',
+                // tabBarColor: colors.themeColor,
+                tabBarIcon: ({ color }) => (<Icon name="ios-heart" color={color} size={26} />)
+            }}
+        />
+        <Tab.Screen
+            name="Cart"
             component={ExploreScreen}
             options={{
-                tabBarLabel: 'Explore',
+                tabBarLabel: 'Cart',
                 // tabBarColor: colors.themeColor,
-                tabBarIcon: ({ color }) => (<Icon name="ios-aperture" color={color} size={26} />)
+                tabBarIcon: ({ color }) => (<Icon name="ios-cart" color={color} size={26} />)
             }}
         />
     </Tab.Navigator>
