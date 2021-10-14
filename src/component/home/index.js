@@ -6,6 +6,7 @@ import DetailsScreen from './DetailsScreen';
 import ExploreScreen from './ExploreScreen';
 import ProfileScreen from './ProfileScreen';
 import { useTheme } from 'react-native-paper';
+import { FavouriteComponent } from '../'
 
 const Tab = createMaterialBottomTabNavigator();
 const MainTabScreen = () => {
@@ -17,7 +18,6 @@ const MainTabScreen = () => {
             options={{
                 tabBarLabel: 'Home',
                 tabBarBadge: 3,
-                // tabBarColor: colors.themeColor,
                 tabBarIcon: ({ color }) => (<Icon name="ios-home" color={color} size={26} />)
             }}
         />
@@ -26,7 +26,6 @@ const MainTabScreen = () => {
             component={DetailsScreen}
             options={{
                 tabBarLabel: 'Search',
-                // tabBarColor: colors.themeColor,
                 tabBarIcon: ({ color }) => (<Icon name="ios-search" color={color} size={26} />)
             }}
         />
@@ -35,16 +34,14 @@ const MainTabScreen = () => {
             component={ProfileScreen}
             options={{
                 tabBarLabel: 'Profile',
-                // tabBarColor: colors.themeColor,
                 tabBarIcon: ({ color }) => (<Icon name="ios-person" color={color} size={26} />)
             }}
         />
         <Tab.Screen
             name="Favourite"
-            component={ProfileScreen}
+            component={FavouriteComponent}
             options={{
                 tabBarLabel: 'Favourite',
-                // tabBarColor: colors.themeColor,
                 tabBarIcon: ({ color }) => (<Icon name="ios-heart" color={color} size={26} />)
             }}
         />
@@ -53,7 +50,6 @@ const MainTabScreen = () => {
             component={ExploreScreen}
             options={{
                 tabBarLabel: 'Cart',
-                // tabBarColor: colors.themeColor,
                 tabBarIcon: ({ color }) => (<Icon name="ios-cart" color={color} size={26} />)
             }}
         />
