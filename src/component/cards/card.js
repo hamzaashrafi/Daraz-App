@@ -1,29 +1,29 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import {
-    Box,
-    Heading,
-    AspectRatio,
-    Image,
-    Text,
-    Center,
-    HStack,
-    Stack,
-    FlatList
-} from 'native-base';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { useTheme } from 'react-native-paper';
-import { SafeAreaView } from 'react-native';
-const ProductsCards = (props) => {
-    const { product_list } = props
-    const product = product_list.filter(item => item.category === props.route.title)
-    const { colors } = useTheme();
-    return (
-        <SafeAreaView>
+import Icons from 'react-native-vector-icons/Ionicons';
+import { Box, Heading, AspectRatio, Image, Text, Center, HStack, Stack, FlatList } from 'native-base';
+
+class CardComponent extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            data: []
+        }
+    }
+
+    static getDerivedStateFromProps = (props, state) => {
+        const { data } = props;
+        return { data };
+    };
+
+    render() {
+        const { data } = this.state
+        return (
             <FlatList
+                data={data}
                 numColumns={2}
                 keyExtractor={(item) => item.price}
-                data={product}
                 renderItem={({ item }) => {
                     return <Box
                         rounded="sm"
@@ -42,7 +42,7 @@ const ProductsCards = (props) => {
                                 />
                             </AspectRatio>
                             <Center position="absolute" top={0} right={0} px="1.5" py="1.5">
-                                <Icon name="ios-heart" color={'white'} size={25} />
+                                <Icons name="ios-heart" color={'white'} size={25} />
                             </Center>
                         </Box>
                         <Stack p="4" space={3}>
@@ -67,15 +67,8 @@ const ProductsCards = (props) => {
                     </Box>
                 }}
             />
-        </SafeAreaView>
-    )
+        )
+    }
 }
 
-const mapStateToProps = (props) => {
-    const { products } = props;
-    return {
-        product_list: products.product_list
-    };
-};
-
-export default connect(mapStateToProps, {})(ProductsCards);
+export default CardComponent
