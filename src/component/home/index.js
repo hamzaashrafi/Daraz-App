@@ -1,11 +1,10 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import HomeScreen from './Home';
+import HomeComponent from './Home';
 import ExploreScreen from './ExploreScreen';
-import ProfileScreen from './ProfileScreen';
 import { useTheme } from 'react-native-paper';
-import { FavouriteComponent, SearchComponent } from '../'
+import { FavouriteComponent, SearchComponent, ProfileComponent } from '../'
 
 const Tab = createMaterialBottomTabNavigator();
 const MainTabScreen = () => {
@@ -13,7 +12,7 @@ const MainTabScreen = () => {
     return <Tab.Navigator initialRouteName="Home" activeColor="#fff" screenOptions={{ tabBarColor: colors.themeColor }}>
         <Tab.Screen
             name="Home"
-            component={HomeScreen}
+            component={HomeComponent}
             options={{
                 tabBarLabel: 'Home',
                 tabBarBadge: 3,
@@ -30,7 +29,7 @@ const MainTabScreen = () => {
         />
         <Tab.Screen
             name="Profile"
-            component={ProfileScreen}
+            component={ProfileComponent}
             options={{
                 tabBarLabel: 'Profile',
                 tabBarIcon: ({ color }) => (<Icon name="ios-person" color={color} size={26} />)

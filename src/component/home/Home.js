@@ -17,7 +17,7 @@ import { ProductsCards } from '../'
 const initialLayout = { width: Dimensions.get('window').width };
 
 
-const HomeScreen = (props) => {
+const HomeComponent = (props) => {
   const { categories } = props
   const [index, setIndex] = React.useState(0);
   const [allCategories, setCategories] = React.useState([]);
@@ -84,4 +84,4 @@ const mapStateToProps = (props) => {
   };
 };
 
-export default connect(mapStateToProps, {})(HomeScreen);
+export default connect(mapStateToProps, {})(HomeComponent);

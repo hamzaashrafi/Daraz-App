@@ -31,7 +31,7 @@ const Routing = () => {
                 <Drawer.Navigator
                     initialRouteName="Home"
                     drawerContent={props => <DrawerContent {...props} />}
-                // screenOptions={{ headerShown: false }}
+                    screenOptions={{ headerShown: false }}
                 >
                     <Drawer.Screen name="Home" component={MainTabScreen} />
                     <Drawer.Screen name="Login" component={LoginComponent} />
