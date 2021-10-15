@@ -12,13 +12,16 @@ import { Box } from 'native-base';
 import { useTheme } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { ProductsCards } from '../'
+import { createStackNavigator } from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 const initialLayout = { width: Dimensions.get('window').width };
+const HomeStack = createStackNavigator();
 
 
 const HomeComponent = (props) => {
-  const { categories } = props
+  const { categories, navigation } = props
   const [index, setIndex] = React.useState(0);
   const [allCategories, setCategories] = React.useState([]);
   const [routes, setRoutes] = React.useState([]);
@@ -66,13 +69,31 @@ const HomeComponent = (props) => {
   const renderScene = SceneMap(renderScreen());
 
   return (
-    <TabView
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      renderTabBar={renderTabBar}
-      onIndexChange={setIndex}
-      initialLayout={initialLayout}
-    />
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="Home"
+        component={() => <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          renderTabBar={renderTabBar}
+          onIndexChange={setIndex}
+          initialLayout={initialLayout}
+        />}
+        options={{
+          headerLeft: () => (
+            <View style={{ marginLeft: 10 }}>
+              <Icon.Button
+                name="ios-menu"
+                size={25}
+                backgroundColor={colors.background}
+                color={colors.text}
+                onPress={() => navigation.openDrawer()}
+              />
+            </View>
+          )
+        }}
+      />
+    </HomeStack.Navigator>
   );
 }
 
