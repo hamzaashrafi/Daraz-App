@@ -140,7 +140,7 @@ const UpdateProfile = () => {
                         placeholderTextColor="#666666"
                         keyboardType="email-address"
                         autoCorrect={false}
-                        oncha={(event) => InputHandler(event, 'email')}
+                        onChangeText={(event) => InputHandler(event, 'email')}
                         style={[styles.textInput, { color: colors.text }]}
                     />
                 </View>

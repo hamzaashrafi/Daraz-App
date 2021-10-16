@@ -15,6 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { connect } from 'react-redux';
+import { signin } from '../../store/actions'
 
 
 class LoginComponent extends Component {
@@ -90,6 +91,7 @@ class LoginComponent extends Component {
 
     onLogin = () => {
         const { user } = this.state
+        const { signin } = this.props
         if (!this.validateEmail(user.email)) {
             return
         }
@@ -97,8 +99,7 @@ class LoginComponent extends Component {
             Alert.alert('Wrong Input!', 'email or password field cannot be empty.', [{ text: 'Okay' }]);
             return;
         }
-        console.log('user', user);
-        // signIn(foundUser);
+        signin(user);
     }
 
     render() {
@@ -185,7 +186,7 @@ const mapStateToProps = (props) => {
     };
 };
 
-export default connect(mapStateToProps, {})(LoginComponent);
+export default connect(mapStateToProps, { signin })(LoginComponent);
 
 
 const styles = StyleSheet.create({

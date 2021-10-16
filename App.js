@@ -3,6 +3,7 @@ import { connect, Provider } from 'react-redux';
 import store from './src/store'
 import Routing from './src/routing'
 import { NativeBaseProvider, Box } from 'native-base';
+import { StatusBar } from 'react-native';
 class App extends Component {
 
   constructor(props) {
@@ -15,6 +16,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        <StatusBar style="auto" />
         <NativeBaseProvider >
           <Routing />
         </NativeBaseProvider>

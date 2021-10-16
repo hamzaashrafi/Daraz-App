@@ -17,6 +17,8 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import { connect } from 'react-redux';
+import { signup } from '../../store/actions'
 
 
 
@@ -103,6 +105,7 @@ export class SignupComponent extends Component {
 
     onSingup = () => {
         const { user, data } = this.state
+        const { signup } = this.props
         if (data.isPasswordNotMatched) {
             Alert.alert('Wrong Input!', 'Password not match', [{ text: 'Okay' }]);
             return
@@ -112,7 +115,7 @@ export class SignupComponent extends Component {
             return;
         }
         console.log('user', user);
-        // signIn(foundUser);
+        signup(user);
     }
 
     render() {
@@ -212,7 +215,16 @@ export class SignupComponent extends Component {
         )
     }
 }
-export default SignupComponent;
+
+const mapStateToProps = (props) => {
+    const { users } = props;
+    return {
+        isUserExist: users.isUserExist,
+        user: users.user,
+    };
+};
+
+export default connect(mapStateToProps, { signup })(SignupComponent);
 
 const styles = StyleSheet.create({
     container: {

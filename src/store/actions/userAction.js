@@ -1,15 +1,15 @@
 import { types } from '../actionTypes';
-import firebase from 'firebase/app';
-import { auth, database } from '../../config';
+import auth from '@react-native-firebase/auth'
 import { toast } from '../../shared';
 
 export const signout = () => async (dispatch) => {
     try {
-        await auth.signOut();
+        await auth().signOut();
         dispatch({ type: types.SING_OUT });
         // window.location.reload();
     }
     catch (error) {
+        console.log('error', error.message);
         toast('error', error.reason || error.message);
     }
 };
@@ -17,10 +17,11 @@ export const signout = () => async (dispatch) => {
 export const signup = (payload) => async (dispatch) => {
     dispatch({ type: types.AUTH_START });
     try {
-        const { user } = await auth.createUserWithEmailAndPassword(payload.email, payload.password);
+        const { user } = await auth().createUserWithEmailAndPassword(payload.email, payload.password);
+        console.log('user', user);
         if (!user.emailVerified) {
             try {
-                await auth.currentUser.sendEmailVerification(null);
+                await auth().currentUser.sendEmailVerification(null);
                 toast("info", "Please check your email for verification step");
                 dispatch({ type: types.AUTH_FILED });
             } catch (error) {
@@ -32,6 +33,7 @@ export const signup = (payload) => async (dispatch) => {
         }
     } catch (error) {
         dispatch({ type: types.AUTH_FILED });
+        console.log('error', error.message);
         toast("error", error.message);
     }
 };
@@ -39,7 +41,9 @@ export const signup = (payload) => async (dispatch) => {
 export const signin = (payload) => async (dispatch) => {
     dispatch({ type: types.AUTH_START });
     try {
-        const { user } = await auth.signInWithEmailAndPassword(payload.email, payload.password);
+        console.log('payload', payload);
+        const { user } = await auth().signInWithEmailAndPassword(payload.email, payload.password);
+        console.log('user', user);
         if (!user.emailVerified) {
             dispatch({ type: types.AUTH_FILED });
             // await firebase.auth().currentUser.sendEmailVerification(actionCodeSettings);
@@ -50,6 +54,7 @@ export const signin = (payload) => async (dispatch) => {
             console.log('user', user);
         }
     } catch (error) {
+        console.log('error', error.message);
         dispatch({ type: types.AUTH_FILED });
         if (error.message === "We have blocked all requests from this device due to unusual activity. Try again later.") {
             toast("error", 'Email Not Varified');
