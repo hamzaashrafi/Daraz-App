@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, StyleSheet } from 'react-native';
 import {
     Avatar,
@@ -7,36 +7,42 @@ import {
     TouchableRipple,
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { connect } from 'react-redux';
 
 
-const Profile = ({ navigation }) => {
-
+const Profile = (props) => {
+    const { navigation, user } = props
+    const [currentUser, setCurrentUser] = useState(user)
+    useEffect(() => {
+        setCurrentUser(user)
+    }, [user])
+    console.log('currentUser', currentUser);
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.userInfoSection}>
                 <View style={{ flexDirection: 'row', marginTop: 15 }}>
                     <Avatar.Image source={{ uri: 'https://api.adorable.io/avatars/80/abott@adorable.png', }} size={80} />
                     <View style={{ marginLeft: 20 }}>
-                        <Title style={[styles.title, { marginTop: 15, marginBottom: 5, }]}>Muhammad Hamza</Title>
+                        {currentUser.name ? <Title style={[styles.title, { marginTop: 15, marginBottom: 5, }]}>{currentUser.name}</Title> : null}
                     </View>
                 </View>
             </View>
             <View style={styles.userInfoSection}>
-                <View style={styles.row}>
+                {currentUser.address ? <View style={styles.row}>
                     <Icon name="map-marker-radius" color="#777777" size={20} />
-                    <Text style={{ color: "#777777", marginLeft: 20 }}>Kolkata, India</Text>
-                </View>
-                <View style={styles.row}>
+                    <Text style={{ color: "#777777", marginLeft: 20 }}>{currentUser.address}</Text>
+                </View> : null}
+                {currentUser.phone ? <View style={styles.row}>
                     <Icon name="phone" color="#777777" size={20} />
-                    <Text style={{ color: "#777777", marginLeft: 20 }}>+91-900000009</Text>
-                </View>
-                <View style={styles.row}>
+                    <Text style={{ color: "#777777", marginLeft: 20 }}>{currentUser.phone}</Text>
+                </View> : null}
+                {currentUser.email ? <View style={styles.row}>
                     <Icon name="email" color="#777777" size={20} />
-                    <Text style={{ color: "#777777", marginLeft: 20 }}>john_doe@email.com</Text>
-                </View>
+                    <Text style={{ color: "#777777", marginLeft: 20 }}>{currentUser.email}</Text>
+                </View> : null}
             </View>
             <View >
-                <TouchableRipple onPress={() => { }}>
+                <TouchableRipple onPress={() => navigation.navigate('Favourite')}>
                     <View style={styles.menuItem}>
                         <Icon name="heart-outline" color="#FF6347" size={25} />
                         <Text style={styles.menuItemText}>Your Favorites</Text>
@@ -47,7 +53,16 @@ const Profile = ({ navigation }) => {
     );
 };
 
-export default Profile;
+
+const mapStateToProps = (props) => {
+    const { users } = props;
+    return {
+        isUserExist: users.isUserExist,
+        user: users.user,
+    };
+};
+
+export default connect(mapStateToProps, {})(Profile);
 
 const styles = StyleSheet.create({
     container: {

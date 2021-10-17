@@ -16,6 +16,13 @@ function userReducer(state = initialState, action) {
         case types.AUTH_FILED:
             return { ...state, };
 
+        case types.UPDATE_USER_START:
+            return { ...state, };
+        case types.UPDATE_USER_SUCCESS:
+            return { ...state, user: action.user };
+        case types.UPDATE_USER_FILED:
+            return { ...state, };
+
         default:
             return state;
     }

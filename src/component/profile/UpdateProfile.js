@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -7,22 +7,26 @@ import {
     TextInput,
     StyleSheet,
 } from 'react-native';
-
 import { useTheme } from 'react-native-paper';
-
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated, { color } from 'react-native-reanimated';
-
 import ImagePicker from 'react-native-image-crop-picker';
+import { connect } from 'react-redux';
+import { updateUser } from '../../store/actions'
 
-const UpdateProfile = () => {
-
+const UpdateProfile = (props) => {
+    const { user, updateUser } = props
     const { colors } = useTheme();
     const [image, setImage] = useState('https://api.adorable.io/avatars/80/abott@adorable.png');
+    const [currentUser, setCurrentUser] = useState(user)
+    const [userData, setUserData] = useState({})
+
+    useEffect(() => {
+        setCurrentUser(user)
+    }, [user])
 
     const takePhotoFromCamera = () => {
         const obj = { compressImageMaxWidth: 300, compressImageMaxHeight: 300, cropping: true, compressImageQuality: 0.7 }
@@ -43,7 +47,27 @@ const UpdateProfile = () => {
     }
 
     const InputHandler = (value, name) => {
-        console.log(name, value);
+        const data = { ...userData }
+        data[name] = value
+        setUserData(data)
+    }
+
+
+    const onUpdate = () => {
+        const obj = {};
+        const data = { ...userData }
+        for (const [key, value] of Object.entries(data)) {
+            if (value) {
+                obj[key] = value;
+            }
+        }
+        if (Object.keys(obj).values) {
+            console.log(obj);
+        }
+        const headers = {
+            userid: currentUser._id
+        }
+        updateUser(obj, headers)
     }
 
     renderInner = () => (
@@ -110,7 +134,7 @@ const UpdateProfile = () => {
                             </ImageBackground>
                         </View>
                     </TouchableOpacity>
-                    <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold' }}>Muhammad Hamza</Text>
+                    <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold' }}>{currentUser.name}</Text>
                 </View>
                 <View style={styles.action}>
                     <FontAwesome name="user-o" color={colors.text} size={20} />
@@ -118,6 +142,7 @@ const UpdateProfile = () => {
                         placeholder="Name"
                         placeholderTextColor="#666666"
                         autoCorrect={false}
+                        value={userData.name || currentUser.name}
                         onChangeText={(event) => InputHandler(event, 'name')}
                         style={[styles.textInput, { color: colors.text, }]}
                     />
@@ -129,6 +154,7 @@ const UpdateProfile = () => {
                         placeholderTextColor="#666666"
                         keyboardType="number-pad"
                         autoCorrect={false}
+                        value={userData.phone || currentUser.phone}
                         onChangeText={(event) => InputHandler(event, 'phone')}
                         style={[styles.textInput, { color: colors.text }]}
                     />
@@ -140,7 +166,9 @@ const UpdateProfile = () => {
                         placeholderTextColor="#666666"
                         keyboardType="email-address"
                         autoCorrect={false}
-                        onChangeText={(event) => InputHandler(event, 'email')}
+                        value={currentUser.email}
+                        editable={false}
+                        // onChangeText={(event) => InputHandler(event, 'email')}
                         style={[styles.textInput, { color: colors.text }]}
                     />
                 </View>
@@ -150,11 +178,12 @@ const UpdateProfile = () => {
                         placeholder="Address"
                         placeholderTextColor="#666666"
                         autoCorrect={false}
+                        value={userData.address || currentUser.address}
                         onChangeText={(event) => InputHandler(event, 'address')}
                         style={[styles.textInput, { color: colors.text }]}
                     />
                 </View>
-                <TouchableOpacity style={styles.commandButton} onPress={() => { }}>
+                <TouchableOpacity style={styles.commandButton} onPress={() => onUpdate()}>
                     <Text style={styles.panelButtonTitle}>Update</Text>
                 </TouchableOpacity>
             </Animated.View>
@@ -162,7 +191,17 @@ const UpdateProfile = () => {
     );
 };
 
-export default UpdateProfile;
+
+const mapStateToProps = (props) => {
+    const { users } = props;
+    return {
+        isUserExist: users.isUserExist,
+        user: users.user,
+    };
+};
+
+export default connect(mapStateToProps, { updateUser })(UpdateProfile);
+
 
 const styles = StyleSheet.create({
     container: {

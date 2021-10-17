@@ -2,5 +2,6 @@ export {
     signin,
     signout,
     signup,
-    resetSigninUserState
+    resetSigninUserState,
+    updateUser
 } from './userAction';

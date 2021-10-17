@@ -67,6 +67,23 @@ export const createUserInDatabase = (payload) => async (dispatch) => {
     }
 };
 
+export const updateUser = (payload, headers) => async (dispatch) => {
+    try {
+        dispatch({ type: types.UPDATE_USER_START });
+        const response = await httpRequest.post('user/update', payload, { headers })
+        console.log("updateUser", response.data);
+        if (response.data.code) {
+            throw response.data
+        } else {
+            dispatch({ type: types.UPDATE_USER_SUCCESS, user: response.data });
+        }
+    } catch (error) {
+        console.log('updateUser error', error);
+        toast('error', error.message ? error.message : 'Prosess Failed');
+        dispatch({ type: types.UPDATE_USER_FILED });
+    }
+};
+
 export const resetSigninUserState = (user) => (dispatch) => {
     dispatch(createUserInDatabase({ email: user.email, name: user.displayName || user.email.split('@')[0] }));
 };
