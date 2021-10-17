@@ -4,6 +4,9 @@ import store from './src/store'
 import Routing from './src/routing'
 import { NativeBaseProvider, Box } from 'native-base';
 import { StatusBar } from 'react-native';
+import auth from '@react-native-firebase/auth'
+import { signout, resetSigninUserState } from './src/store/actions'
+
 class App extends Component {
 
   constructor(props) {
@@ -12,6 +15,21 @@ class App extends Component {
     this.state = {
     }
   }
+
+
+  componentDidMount() {
+    auth().onAuthStateChanged(async userAuth => {
+      console.log("userAuth ", userAuth)
+      if (userAuth) {
+        if (userAuth.emailVerified) {
+          store.dispatch(resetSigninUserState(userAuth))
+        } else {
+          store.dispatch(signout())
+        }
+      }
+    });
+  }
+
 
   render() {
     return (
