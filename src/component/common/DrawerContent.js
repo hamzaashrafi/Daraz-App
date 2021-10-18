@@ -19,6 +19,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
+import { signout } from '../../store/actions'
 
 // const paperTheme = useTheme();
 
@@ -55,12 +56,12 @@ class DrawerContent extends Component {
                                     size={50}
                                 />
                                 <View style={{ marginLeft: 15, flexDirection: 'column' }}>
-                                    <Title style={styles.title}>John Doe</Title>
-                                    <Caption style={styles.caption}>@j_doe</Caption>
+                                    <Title style={styles.title}>{user.name}</Title>
+                                    {/* <Caption style={styles.caption}>@j_doe</Caption> */}
                                 </View>
                             </View>
 
-                            <View style={styles.row}>
+                            {/* <View style={styles.row}>
                                 <View style={styles.section}>
                                     <Paragraph style={[styles.paragraph, styles.caption]}>80</Paragraph>
                                     <Caption style={styles.caption}>Following</Caption>
@@ -69,7 +70,7 @@ class DrawerContent extends Component {
                                     <Paragraph style={[styles.paragraph, styles.caption]}>100</Paragraph>
                                     <Caption style={styles.caption}>Followers</Caption>
                                 </View>
-                            </View>
+                            </View> */}
                         </View>
 
                         <Drawer.Section style={styles.drawerSection}>
@@ -82,7 +83,7 @@ class DrawerContent extends Component {
                                     />
                                 )}
                                 label="Home"
-                                onPress={() => { this.props.navigation.navigate('Login') }}
+                                onPress={() => { this.props.navigation.navigate('Home') }}
                             />
                             <DrawerItem
                                 icon={({ color, size }) => (
@@ -93,40 +94,40 @@ class DrawerContent extends Component {
                                     />
                                 )}
                                 label="Profile"
-                                onPress={() => { this.props.navigation.navigate('Login') }}
+                                onPress={() => { this.props.navigation.navigate('Profile') }}
                             />
                             <DrawerItem
                                 icon={({ color, size }) => (
                                     <Icon
-                                        name="bookmark-outline"
+                                        name="heart-outline"
                                         color={color}
                                         size={size}
                                     />
                                 )}
-                                label="Bookmarks"
-                                onPress={() => { this.props.navigation.navigate('Login') }}
+                                label="Favourite"
+                                onPress={() => { this.props.navigation.navigate('Favourite') }}
                             />
                             <DrawerItem
                                 icon={({ color, size }) => (
                                     <Icon
-                                        name="settings-outline"
+                                        name="Search-outline"
                                         color={color}
                                         size={size}
                                     />
                                 )}
-                                label="Settings"
-                                onPress={() => { this.props.navigation.navigate('Login') }}
+                                label="Search"
+                                onPress={() => { this.props.navigation.navigate('Search') }}
                             />
                             <DrawerItem
                                 icon={({ color, size }) => (
                                     <Icon
-                                        name="account-check-outline"
+                                        name="cart-outline"
                                         color={color}
                                         size={size}
                                     />
                                 )}
-                                label="Support"
-                                onPress={() => { this.props.navigation.navigate('Login') }}
+                                label="Cart"
+                                onPress={() => { this.props.navigation.navigate('Cart') }}
                             />
                         </Drawer.Section>
                     </View>
@@ -156,7 +157,7 @@ class DrawerContent extends Component {
                             />
                         )}
                         label="Sign Out"
-                    // onPress={() => {signOut()}}
+                        onPress={() => signout()}
                     />
                 </Drawer.Section> : null}
             </SafeAreaView>
@@ -172,7 +173,7 @@ const mapStateToProps = (props) => {
     };
 };
 
-export default connect(mapStateToProps, {})(DrawerContent);
+export default connect(mapStateToProps, { signout })(DrawerContent);
 
 const styles = StyleSheet.create({
     container: {
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
         height: 700,
         alignItems: 'center',
         marginTop: 50,
-        padding:15
+        padding: 15
     },
     drawerContent: {
         flex: 1,

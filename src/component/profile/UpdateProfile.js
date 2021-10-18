@@ -142,7 +142,7 @@ const UpdateProfile = (props) => {
                         placeholder="Name"
                         placeholderTextColor="#666666"
                         autoCorrect={false}
-                        value={userData.name || currentUser.name}
+                        value={(userData.name || userData.name === '') ? userData.name : currentUser.name}
                         onChangeText={(event) => InputHandler(event, 'name')}
                         style={[styles.textInput, { color: colors.text, }]}
                     />
@@ -154,7 +154,7 @@ const UpdateProfile = (props) => {
                         placeholderTextColor="#666666"
                         keyboardType="number-pad"
                         autoCorrect={false}
-                        value={userData.phone || currentUser.phone}
+                        value={(userData.phone || userData.phone === '') ? userData.phone : currentUser.phone}
                         onChangeText={(event) => InputHandler(event, 'phone')}
                         style={[styles.textInput, { color: colors.text }]}
                     />
@@ -178,7 +178,7 @@ const UpdateProfile = (props) => {
                         placeholder="Address"
                         placeholderTextColor="#666666"
                         autoCorrect={false}
-                        value={userData.address || currentUser.address}
+                        value={(userData.address || userData.address === '') ? userData.address : currentUser.address}
                         onChangeText={(event) => InputHandler(event, 'address')}
                         style={[styles.textInput, { color: colors.text }]}
                     />

@@ -8,7 +8,7 @@ import { useTheme } from 'react-native-paper';
 
 const FavouriteStack = createStackNavigator();
 const FavouriteComponent = (props) => {
-    const { product_list } = props
+    const { product_list, navigation } = props
     const { colors } = useTheme();
     // const product = product_list.filter(item => item.category === props.route.title)
     const product = product_list

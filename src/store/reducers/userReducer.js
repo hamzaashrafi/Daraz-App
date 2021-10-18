@@ -23,6 +23,9 @@ function userReducer(state = initialState, action) {
         case types.UPDATE_USER_FILED:
             return { ...state, };
 
+        case types.SING_OUT:
+            return { ...state, user: {}, isUserExist: false };
+
         default:
             return state;
     }

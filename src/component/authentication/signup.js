@@ -46,6 +46,10 @@ export class SignupComponent extends Component {
 
     static getDerivedStateFromProps = (props, state) => {
         const { user } = state;
+        const { navigation, isUserExist } = props;
+        if (isUserExist) {
+            navigation.goBack();
+        }
         const data = { ...state.data }
         let isPasswordNotMatched = false
         if (user.password === user.confirm_password) {
