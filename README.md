@@ -1,2 +1,2 @@
 "# Daraz-App" 
-"for release 'gradlew assembleRelease'" 
+"gradlew clean, gradlew cleanBuildCache, 'gradlew assembleRelease'" 
