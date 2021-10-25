@@ -43,6 +43,7 @@ class DrawerContent extends Component {
 
     render() {
         const { isUserExist, user } = this.state
+        const { signout } = this.props
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 {isUserExist ? <DrawerContentScrollView {...this.props}>

@@ -5,7 +5,7 @@ import Routing from './src/routing'
 import { NativeBaseProvider, Box } from 'native-base';
 import { StatusBar } from 'react-native';
 import auth from '@react-native-firebase/auth'
-import { signout, resetSigninUserState } from './src/store/actions'
+import { signout, resetSigninUserState, getProducts } from './src/store/actions'
 
 class App extends Component {
 
@@ -18,6 +18,7 @@ class App extends Component {
 
 
   componentDidMount() {
+    store.dispatch(getProducts())
     auth().onAuthStateChanged(async userAuth => {
       console.log("userAuth ", userAuth)
       if (userAuth) {

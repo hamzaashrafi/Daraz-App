@@ -5,3 +5,7 @@ export {
     resetSigninUserState,
     updateUser
 } from './userAction';
+export {
+    createProduct,
+    getProducts
+} from './product';
