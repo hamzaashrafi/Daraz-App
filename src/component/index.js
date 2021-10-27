@@ -6,3 +6,5 @@ export { default as ProductsCards } from './cards/productsCards';
 export { default as FavouriteComponent } from './favourite';
 export { default as SearchComponent } from './search';
 export { default as ProfileComponent } from './profile';
+export { default as ProductDetails } from './productDetails';
+export { default as CartComponent } from './cart';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { NavigationContainer, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { LoginComponent, SignupComponent, DrawerContent, MainTabScreen } from '../component'
+import { LoginComponent, SignupComponent, DrawerContent, MainTabScreen, ProductDetails } from '../component'
 import { connect } from 'react-redux';
 
 import {
@@ -36,7 +36,7 @@ const Routing = () => {
                     <Drawer.Screen name="Home" component={MainTabScreen} />
                     <Drawer.Screen name="Login" component={LoginComponent} />
                     <Drawer.Screen name="Signup" component={SignupComponent} />
-                    {/* <Drawer.Screen name="BookmarkScreen" component={BookmarkScreen} /> */}
+                    <Drawer.Screen name="Details" component={ProductDetails} />
                 </Drawer.Navigator>
             </NavigationContainer>
         </PaperProvider>

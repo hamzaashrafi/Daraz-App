@@ -2,6 +2,7 @@ import { types } from '../actionTypes';
 
 // initeat State
 let initialState = {
+    cartData: [],
     categories: [
         { key: 'electronics', title: 'Electronics' },
         { key: 'cars', title: 'Cars' },
@@ -10,7 +11,8 @@ let initialState = {
         { key: 'groceries', title: 'Groceries' },
         { key: 'aaaaaa', title: 'cccccc' },
     ],
-    product_list: []
+    product_list: [],
+    selectedProduct: {}
 };
 
 function productsReducer(state = initialState, action) {
@@ -22,6 +24,12 @@ function productsReducer(state = initialState, action) {
             return { ...state, product_list: action.product_list };
         case types.GET_PRODUCTS_FILED:
             return { ...state, };
+
+        case types.ON_SELECT_PRODUCT:
+            return { ...state, selectedProduct: action.product };
+
+        case types.ADD_TO_CART:
+            return { ...state, cartData: action.cartData };
 
         default:
             return state;

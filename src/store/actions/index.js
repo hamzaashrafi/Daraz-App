@@ -7,5 +7,8 @@ export {
 } from './userAction';
 export {
     createProduct,
-    getProducts
+    getProducts,
+    onSelectProduct,
+    onAddToCart,
+    getCartDate
 } from './product';

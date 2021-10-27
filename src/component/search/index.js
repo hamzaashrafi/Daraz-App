@@ -49,6 +49,7 @@ class SearchComponent extends Component {
 
     render() {
         const { product_list, searchedProducts, isSearched } = this.state
+        const { navigation } = this.props
         console.log('searchedProducts', searchedProducts);
         const data = isSearched ? searchedProducts : product_list
         return (
@@ -64,7 +65,7 @@ class SearchComponent extends Component {
                                 m="2"
                                 color="muted.400" />} />
                 </Center>
-                {(data && data.length) ? <CardComponent data={data} /> : <Center px="2">Not Availabe</Center>}
+                {(data && data.length) ? <CardComponent data={data} navigation={navigation} /> : <Center px="2">Not Availabe</Center>}
             </SafeAreaView>
         )
     }

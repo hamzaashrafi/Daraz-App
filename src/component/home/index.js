@@ -2,12 +2,13 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeComponent from './Home';
-import ExploreScreen from './ExploreScreen';
 import { useTheme } from 'react-native-paper';
-import { FavouriteComponent, SearchComponent, ProfileComponent } from '../'
+import { FavouriteComponent, SearchComponent, ProfileComponent, CartComponent } from '../'
+import { connect } from 'react-redux';
 
 const Tab = createMaterialBottomTabNavigator();
-const MainTabScreen = () => {
+const MainTabScreen = (props) => {
+    const { cartData } = props
     const { colors } = useTheme();
     return <Tab.Navigator initialRouteName="Home" activeColor="#fff" screenOptions={{ tabBarColor: colors.themeColor }}>
         <Tab.Screen
@@ -45,13 +46,22 @@ const MainTabScreen = () => {
         />
         <Tab.Screen
             name="Cart"
-            component={ExploreScreen}
+            component={CartComponent}
             options={{
                 tabBarLabel: 'Cart',
+                tabBarBadge: cartData.length || null,
                 tabBarIcon: ({ color }) => (<Icon name="ios-cart" color={color} size={26} />)
             }}
         />
     </Tab.Navigator>
 }
 
-export default MainTabScreen;
+
+const mapStateToProps = (props) => {
+    const { products } = props;
+    return {
+        cartData: products.cartData
+    };
+};
+
+export default connect(mapStateToProps, {})(MainTabScreen);

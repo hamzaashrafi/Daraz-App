@@ -12,12 +12,19 @@ import {
     FlatList
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { onSelectProduct } from '../../store/actions'
+
 const ProductsCards = (props) => {
-    const { product_list } = props
+    const { product_list, onSelectProduct } = props
     const product = product_list.filter(item => item.category === props.route.title)
-    const { colors } = useTheme();
+    const navigation = useNavigation();
+
+    const onselect = async (item) => {
+        await onSelectProduct(item);
+        navigation.navigate('Details')
+    }
     return (
         <SafeAreaView>
             <FlatList
@@ -30,16 +37,11 @@ const ProductsCards = (props) => {
                         style={{ width: '45%', margin: 10, padding: 5, height: '100%' }}
                         shadow={1}
                         _light={{ backgroundColor: 'gray.50' }}
+                        onTouchEnd={() => onselect(item)}
                         _dark={{ backgroundColor: 'gray.700' }}>
                         <Box>
                             <AspectRatio ratio={10 / 9}>
-                                <Image
-                                    source={{
-                                        uri:
-                                            'https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg',
-                                    }}
-                                    alt="image"
-                                />
+                                <Image source={{ uri: item.image }} alt="image" />
                             </AspectRatio>
                             <Center position="absolute" top={0} right={0} px="1.5" py="1.5">
                                 <Icon name="ios-heart" color={'white'} size={25} />
@@ -78,4 +80,4 @@ const mapStateToProps = (props) => {
     };
 };
 
-export default connect(mapStateToProps, {})(ProductsCards);
+export default connect(mapStateToProps, { onSelectProduct })(ProductsCards);

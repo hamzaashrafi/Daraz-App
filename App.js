@@ -5,7 +5,8 @@ import Routing from './src/routing'
 import { NativeBaseProvider, Box } from 'native-base';
 import { StatusBar } from 'react-native';
 import auth from '@react-native-firebase/auth'
-import { signout, resetSigninUserState, getProducts } from './src/store/actions'
+import { signout, resetSigninUserState, getProducts, getCartDate } from './src/store/actions'
+import { getAppStorage } from './src/shared';
 
 class App extends Component {
 
@@ -17,7 +18,7 @@ class App extends Component {
   }
 
 
-  componentDidMount() {
+  async componentDidMount() {
     store.dispatch(getProducts())
     auth().onAuthStateChanged(async userAuth => {
       console.log("userAuth ", userAuth)
@@ -29,6 +30,9 @@ class App extends Component {
         }
       }
     });
+    const cartData = await getAppStorage('cartData') || []
+    store.dispatch(getCartDate(cartData))
+
   }
 
 

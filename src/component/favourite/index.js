@@ -16,9 +16,7 @@ const FavouriteComponent = (props) => {
         <FavouriteStack.Navigator>
             <FavouriteStack.Screen
                 name="Favourite"
-                component={() => <SafeAreaView >
-                    <CardComponent data={product} />
-                </SafeAreaView>}
+                component={() => <CardComponent data={product} navigation={navigation} />}
                 options={{
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }}>
