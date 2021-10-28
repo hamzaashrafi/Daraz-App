@@ -3,7 +3,7 @@ import Icons from 'react-native-vector-icons/Ionicons';
 import { Box, Heading, AspectRatio, Image, Text, Center, HStack, Stack, FlatList } from 'native-base';
 import { onSelectProduct } from '../../store/actions'
 import { connect } from 'react-redux';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, ActivityIndicator, View } from 'react-native';
 
 class CardComponent extends Component {
 
@@ -29,6 +29,14 @@ class CardComponent extends Component {
 
     render() {
         const { data } = this.state
+        const { isProductGetting } = this.props
+        if (isProductGetting) {
+            return (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size="large" />
+                </View>
+            );
+        }
         return (
             <SafeAreaView>
                 <FlatList
@@ -38,14 +46,14 @@ class CardComponent extends Component {
                     renderItem={({ item }) => {
                         return <Box
                             rounded="sm"
-                            style={{ width: '45%', margin: 10, padding: 5, height: '100%' }}
+                            style={{ width: '45%', margin: 10, padding: 9, height: '95%', borderRadius: 20 }}
                             shadow={1}
-                            _light={{ backgroundColor: 'gray.50' }}
+                            _light={{ backgroundColor: 'gray.200' }}
                             onTouchEnd={() => this.onselect(item)}
                             _dark={{ backgroundColor: 'gray.700' }}>
                             <Box>
                                 <AspectRatio ratio={10 / 9}>
-                                    <Image source={{ uri: item.image }} alt="image" />
+                                    <Image source={{ uri: item.image }} style={{ borderRadius: 30 }} alt="image" />
                                 </AspectRatio>
                                 <Center position="absolute" top={0} right={0} px="1.5" py="1.5">
                                     <Icons name="ios-heart" color={'white'} size={25} />
@@ -82,7 +90,8 @@ class CardComponent extends Component {
 const mapStateToProps = (props) => {
     const { products } = props;
     return {
-        product_list: products.product_list
+        product_list: products.product_list,
+        isProductGetting: products.isProductGetting
     };
 };
 

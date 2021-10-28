@@ -12,18 +12,25 @@ import {
     FlatList
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { onSelectProduct } from '../../store/actions'
 
 const ProductsCards = (props) => {
-    const { product_list, onSelectProduct } = props
+    const { product_list, onSelectProduct, isProductGetting } = props
     const product = product_list.filter(item => item.category === props.route.title)
     const navigation = useNavigation();
 
     const onselect = async (item) => {
         await onSelectProduct(item);
         navigation.navigate('Details')
+    }
+    if (isProductGetting) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
     }
     return (
         <SafeAreaView>
@@ -34,14 +41,14 @@ const ProductsCards = (props) => {
                 renderItem={({ item }) => {
                     return <Box
                         rounded="sm"
-                        style={{ width: '45%', margin: 10, padding: 5, height: '100%' }}
+                        style={{ width: '45%', margin: 10, padding: 9, height: '100%', borderRadius: 20 }}
                         shadow={1}
-                        _light={{ backgroundColor: 'gray.50' }}
+                        _light={{ backgroundColor: 'gray.200' }}
                         onTouchEnd={() => onselect(item)}
                         _dark={{ backgroundColor: 'gray.700' }}>
-                        <Box>
-                            <AspectRatio ratio={10 / 9}>
-                                <Image source={{ uri: item.image }} alt="image" />
+                        <Box >
+                            <AspectRatio ratio={10 / 10}>
+                                <Image source={{ uri: item.image }} style={{ borderRadius: 30 }} alt="image" />
                             </AspectRatio>
                             <Center position="absolute" top={0} right={0} px="1.5" py="1.5">
                                 <Icon name="ios-heart" color={'white'} size={25} />
@@ -76,7 +83,8 @@ const ProductsCards = (props) => {
 const mapStateToProps = (props) => {
     const { products } = props;
     return {
-        product_list: products.product_list
+        product_list: products.product_list,
+        isProductGetting: products.isProductGetting
     };
 };
 

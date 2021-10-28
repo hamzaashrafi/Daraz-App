@@ -3,6 +3,7 @@ import { NavigationContainer, DefaultTheme as NavigationDefaultTheme } from '@re
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { LoginComponent, SignupComponent, DrawerContent, MainTabScreen, ProductDetails } from '../component'
 import { connect } from 'react-redux';
+import { View, ActivityIndicator } from 'react-native';
 
 import {
     Provider as PaperProvider,
@@ -23,7 +24,15 @@ const CustomDefaultTheme = {
     }
 }
 
-const Routing = () => {
+const Routing = (props) => {
+    const { isUserGetting } = props
+    if (isUserGetting) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
 
     return (
         <PaperProvider theme={CustomDefaultTheme}>
@@ -48,6 +57,7 @@ const mapStateToProps = (props) => {
     return {
         isUserExist: users.isUserExist,
         user: users.user,
+        isUserGetting: users.isUserGetting,
     };
 };
 
