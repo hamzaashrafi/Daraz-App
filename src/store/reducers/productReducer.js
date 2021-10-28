@@ -32,6 +32,9 @@ function productsReducer(state = initialState, action) {
         case types.ADD_TO_CART:
             return { ...state, cartData: action.cartData };
 
+        case types.REMOVE_CART_DATA:
+            return { ...state, cartData: [] };
+
         default:
             return state;
     }

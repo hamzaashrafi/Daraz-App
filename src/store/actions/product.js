@@ -1,5 +1,5 @@
 import { httpRequest } from '../../config';
-import { getAppStorage, setAppStorage } from '../../shared';
+import { getAppStorage, removeAppStorageByKey, setAppStorage } from '../../shared';
 import { types } from '../actionTypes';
 
 export const createProduct = (payload) => async (dispatch) => {
@@ -31,14 +31,22 @@ export const onSelectProduct = (product) => async (dispatch) => {
     dispatch({ type: types.ON_SELECT_PRODUCT, product });
 }
 
-export const onAddToCart = (product) => async (dispatch) => {
+export const onAddToCart = (product, action = "+") => async (dispatch) => {
     try {
         const cartData = await getAppStorage('cartData') || []
         const index = cartData.findIndex(item => item._id === product._id)
         if (index === -1) {
             cartData.unshift({ ...product, qty: 1 })
         } else {
-            cartData[index].qty = cartData[index].qty + 1
+            if (action === '+') {
+                cartData[index].qty = cartData[index].qty + 1
+            } else {
+                console.log('cartData[index].qty', cartData[index].qty);
+                console.log('cartData[index].qty <= 0', cartData[index].qty > 1);
+                if (cartData[index].qty > 1) {
+                    cartData[index].qty = cartData[index].qty - 1
+                }
+            }
         }
         setAppStorage('cartData', cartData)
         dispatch({ type: types.ADD_TO_CART, cartData });
@@ -46,7 +54,14 @@ export const onAddToCart = (product) => async (dispatch) => {
         console.log('onAddToCart', error.message || error)
     }
 }
-
+export const removeCartData = () => async (dispatch) => {
+    try {
+        await removeAppStorageByKey('cartData')
+        dispatch({ type: types.REMOVE_CART_DATA });
+    } catch (error) {
+        console.log('removeCartData', error.message || error)
+    }
+}
 export const getCartDate = (products) => async (dispatch) => {
     try {
         dispatch({ type: types.ADD_TO_CART, cartData: products });

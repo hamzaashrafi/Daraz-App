@@ -16,6 +16,8 @@ export const types = {
 
   ADD_TO_CART: 'ADD_TO_CART',
 
+  REMOVE_CART_DATA: 'REMOVE_CART_DATA',
+
   SING_OUT: 'SING_OUT',
 };
 

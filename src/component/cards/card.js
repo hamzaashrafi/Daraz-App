@@ -62,6 +62,12 @@ class CardComponent extends Component {
                             <Stack p="4" space={3}>
                                 <Stack space={2}>
                                     <Heading size="sm" ml="-1">{item.name}</Heading>
+                                    <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                                        <Text style={{ textDecorationLine: 'line-through', textDecorationStyle: 'solid' }}>
+                                            Rs {item.price}
+                                        </Text>
+                                        <Text style={{ marginHorizontal: 2 }}>Rs {item.price - (item.price * item.discount / 100)}</Text>
+                                    </View>
                                     <Text
                                         fontSize="xs"
                                         _light={{ color: 'violet.500' }}

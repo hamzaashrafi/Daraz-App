@@ -11,7 +11,7 @@ const CartComponent = (props) => {
     return (
         <cartStack.Navigator>
             <cartStack.Screen
-                name="CartScreen"
+                name="Cart Screen"
                 component={Cart}
                 options={{
                     headerLeft: () => (
