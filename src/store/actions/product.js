@@ -61,6 +61,7 @@ export const removeCartData = () => async (dispatch) => {
     try {
         await removeAppStorageByKey('cartData')
         dispatch({ type: types.REMOVE_CART_DATA });
+        toast('success', 'Cart Empty')
     } catch (error) {
         console.log('removeCartData', error.message || error)
         toast('error', error.reason || error.message);
@@ -71,9 +72,11 @@ export const removeProductInCartData = (productId) => async (dispatch) => {
     try {
         const cartData = await getAppStorage('cartData') || []
         const index = cartData.findIndex(item => item._id === productId)
+        const pro = cartData[index]
         cartData.splice(index, 1)
         setAppStorage('cartData', cartData)
         dispatch({ type: types.ADD_TO_CART, cartData });
+        toast('success', `Remove ${pro.name} success`)
     } catch (error) {
         console.log('removeProductInCartData', error.message || error)
         toast('error', error.reason || error.message);
