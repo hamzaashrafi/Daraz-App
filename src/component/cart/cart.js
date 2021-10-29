@@ -31,7 +31,7 @@ const Cart = (props) => {
                                 <View style={styles.textStyle}>
                                     <Text style={{ color: '#2e2f30' }}>{item.name}</Text>
                                     <View style={styles.priceStyle}>
-                                        <Text style={{ color: '#2e2f30', fontSize: 12 }}>${item.qty * (item.price - (item.price * item.discount / 100))}</Text>
+                                        <Text style={{ color: '#2e2f30', fontSize: 12 }}>Rs {item.qty * (item.price - (item.price * item.discount / 100))}</Text>
                                     </View>
                                 </View>
 
@@ -55,7 +55,7 @@ const Cart = (props) => {
                                         style={{ borderRadius: 20, backgroundColor: '#bbb', height: 35, width: 35 }}
                                         iconStyle={{ marginRight: 0 }}
                                     />
-                                    <Icon name="ios-trash" size={25} onPress={() => removeProductInCartData(item._id)} />
+                                    <Icon name="ios-trash" style={{ color: 'gray' }} size={25} onPress={() => removeProductInCartData(item._id)} />
                                 </View>
                             </View>
                         )
