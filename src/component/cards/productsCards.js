@@ -58,7 +58,7 @@ const ProductsCards = (props) => {
                             <Stack space={2}>
                                 <Heading size="sm" ml="-1">{item.name}</Heading>
                                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                                    <Text style={{ textDecorationLine: 'line-through', textDecorationStyle: 'solid' }}>
+                                    <Text style={{ textDecorationLine: 'line-through', color: 'gray', fontSize: 12, textDecorationStyle: 'solid' }}>
                                         Rs {item.price}
                                     </Text>
                                     <Text style={{ marginHorizontal: 2 }}>Rs {item.price - (item.price * item.discount / 100)}</Text>

@@ -59,7 +59,7 @@ class SearchComponent extends Component {
             <SearchStack.Navigator>
                 <SearchStack.Screen
                     name="Search Product"
-                    component={() => <SafeAreaView>
+                    component={() => <SafeAreaView style={{ marginBottom: 100 }}>
                         <Center px="2">
                             <Input
                                 placeholder="Search"
