@@ -17,6 +17,7 @@ const Cart = (props) => {
         return price
     }
 
+    
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.containterStyle}>
