@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Text, View, FlatList, Image, SafeAreaView } from 'react-native';
+import { Text, View, FlatList, Image, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { onAddToCart, removeCartData, removeProductInCartData } from '../../store/actions'
+import { onAddToCart, removeCartData, removeProductInCartData, onDispatchOrder } from '../../store/actions'
 import { Button } from 'native-base'
+import { generateOrderId, toast } from '../../shared'
 
 const Cart = (props) => {
-    const { cartData, navigation, onAddToCart, removeCartData, removeProductInCartData } = props
+    const { cartData, navigation, onAddToCart, removeCartData, removeProductInCartData, isUserExist, onDispatchOrder, user } = props
 
     const getTotalPrice = () => {
         let price = 0
@@ -17,6 +18,23 @@ const Cart = (props) => {
         return price
     }
 
+    const onOrder = () => {
+        try {
+            if (!isUserExist) throw new Error('Login or SignUp First')
+            if (cartData && cartData.length) {
+                const orderObj = {
+                    customer: user._id,
+                    order_id: generateOrderId(),
+                    price: getTotalPrice(),
+                    items: cartData,
+                }
+                console.log('orderObj', orderObj);
+                onDispatchOrder(orderObj, { userid: user._id })
+            }
+        } catch (error) {
+            toast('error', error.reason || error.message);
+        }
+    }
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -82,9 +100,9 @@ const Cart = (props) => {
                     >
                         Remove all
                     </Button>
-                    <View style={styles.checkoutButtonStyle}>
+                    <TouchableOpacity style={styles.checkoutButtonStyle} onPress={() => onOrder()}>
                         <Text style={{ color: '#fff' }}>Order Now</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>
@@ -92,13 +110,15 @@ const Cart = (props) => {
 }
 
 const mapStateToProps = (props) => {
-    const { products } = props;
+    const { products, users } = props;
     return {
-        cartData: products.cartData
+        cartData: products.cartData,
+        isUserExist: users.isUserExist,
+        user: users.user,
     };
 };
 
-export default connect(mapStateToProps, { onAddToCart, removeCartData, removeProductInCartData })(Cart);
+export default connect(mapStateToProps, { onAddToCart, removeCartData, removeProductInCartData, onDispatchOrder })(Cart);
 
 const styles = {
     containerStyle: {

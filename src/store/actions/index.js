@@ -12,5 +12,7 @@ export {
     onAddToCart,
     getCartDate,
     removeCartData,
-    removeProductInCartData
+    removeProductInCartData,
+    onDispatchOrder,
+    getOrders
 } from './product';

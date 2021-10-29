@@ -19,7 +19,6 @@ class App extends Component {
 
 
   async componentDidMount() {
-    store.dispatch(getProducts())
     auth().onAuthStateChanged(async userAuth => {
       console.log("userAuth ", userAuth)
       if (userAuth) {
@@ -32,7 +31,6 @@ class App extends Component {
     });
     const cartData = await getAppStorage('cartData') || []
     store.dispatch(getCartDate(cartData))
-
   }
 
 

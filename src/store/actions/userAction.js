@@ -61,7 +61,7 @@ export const createUserInDatabase = (payload) => async (dispatch) => {
             dispatch({ type: types.AUTH_SUCCESS, user: response.data });
         }
     } catch (error) {
-        console.log('createUserInDatabase error', error);
+        console.log('createUserInDatabase error', error,message);
         toast('error', error.message ? error.message : 'Prosess Failed');
         dispatch({ type: types.AUTH_FILED });
     }

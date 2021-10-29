@@ -16,7 +16,7 @@ export const createProduct = (payload) => async (dispatch) => {
 export const getProducts = (payload) => async (dispatch) => {
     try {
         dispatch({ type: types.GET_PRODUCTS_START });
-        const getProducts = await httpRequest.post('product/get', payload)
+        const getProducts = await httpRequest.get('product/get', payload)
         // console.log('getProducts', getProducts.data);
         dispatch({ type: types.GET_PRODUCTS_SUCCESS, product_list: getProducts.data });
     }
@@ -88,6 +88,26 @@ export const getCartDate = (products) => async (dispatch) => {
         dispatch({ type: types.ADD_TO_CART, cartData: products });
     } catch (error) {
         console.log('getCartDate', error.message || error)
+        toast('error', error.reason || error.message);
+    }
+}
+
+export const onDispatchOrder = (payload, headers) => async (dispatch) => {
+    try {
+        const { data } = await httpRequest.post("create/order", payload, { headers });
+        console.log('createOrder', data);
+    } catch (error) {
+        console.log('onDispatchOrder', error.message || error)
+        toast('error', error.reason || error.message);
+    }
+}
+
+export const getOrders = (headers) => async (dispatch) => {
+    try {
+        const { data } = await httpRequest.get("order/get", { headers });
+        console.log('getOrders', data);
+    } catch (error) {
+        console.log('onDispatchOrder', error.message || error)
         toast('error', error.reason || error.message);
     }
 }

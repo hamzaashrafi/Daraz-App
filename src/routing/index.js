@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { NavigationContainer, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { LoginComponent, SignupComponent, DrawerContent, MainTabScreen, ProductDetails } from '../component'
 import { connect } from 'react-redux';
+import { getOrders, getProducts } from '../store/actions'
 import { View, ActivityIndicator } from 'react-native';
 
 import {
@@ -24,34 +25,60 @@ const CustomDefaultTheme = {
     }
 }
 
-const Routing = (props) => {
-    const { isUserGetting } = props
-    if (isUserGetting) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size="large" />
-            </View>
-        );
+class Routing extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+
+        }
     }
 
-    return (
-        <PaperProvider theme={CustomDefaultTheme}>
-            <NavigationContainer theme={CustomDefaultTheme}>
-                <Drawer.Navigator
-                    initialRouteName="Home"
-                    drawerContent={props => <DrawerContent {...props} />}
-                    screenOptions={{ headerShown: false }}
-                >
-                    <Drawer.Screen name="Home" component={MainTabScreen} />
-                    <Drawer.Screen name="Login" component={LoginComponent} />
-                    <Drawer.Screen name="Signup" component={SignupComponent} />
-                    <Drawer.Screen name="Details" component={ProductDetails} />
-                </Drawer.Navigator>
-            </NavigationContainer>
-        </PaperProvider>
-    )
-}
+    static getDerivedStateFromProps = (props, state) => {
+        const { getOrders, isUserExist, user, getProducts } = props
+        const obj = {}
+        if (!state.ishitVarifiedApi && isUserExist) {
+            if (isUserExist) {
+                getOrders({ userid: user._id })  // get orders
+            }
+            obj.ishitVarifiedApi = true
+        }
+        if (!state.ishitApi) {
+            getProducts() // get products
+            obj.ishitApi = true
+        }
+        return obj;
+    };
 
+    render() {
+        const { isUserGetting } = this.props
+        if (isUserGetting) {
+            return (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size="large" />
+                </View>
+            );
+        }
+
+        return (
+            <PaperProvider theme={CustomDefaultTheme}>
+                <NavigationContainer theme={CustomDefaultTheme}>
+                    <Drawer.Navigator
+                        initialRouteName="Home"
+                        drawerContent={props => <DrawerContent {...props} />}
+                        screenOptions={{ headerShown: false }}
+                    >
+                        <Drawer.Screen name="Home" component={MainTabScreen} />
+                        <Drawer.Screen name="Login" component={LoginComponent} />
+                        <Drawer.Screen name="Signup" component={SignupComponent} />
+                        <Drawer.Screen name="Details" component={ProductDetails} />
+                    </Drawer.Navigator>
+                </NavigationContainer>
+            </PaperProvider>
+        )
+    }
+}
 const mapStateToProps = (props) => {
     const { users } = props;
     return {
@@ -61,4 +88,4 @@ const mapStateToProps = (props) => {
     };
 };
 
-export default connect(mapStateToProps, {})(Routing);
+export default connect(mapStateToProps, { getOrders, getProducts })(Routing);
