@@ -57,11 +57,11 @@ export const onAddToCart = (product, action = "+", showToast) => async (dispatch
     }
 }
 
-export const removeCartData = () => async (dispatch) => {
+export const removeCartData = (showToast) => async (dispatch) => {
     try {
         await removeAppStorageByKey('cartData')
         dispatch({ type: types.REMOVE_CART_DATA });
-        toast('success', 'Cart Empty')
+        if (!showToast) toast('success', 'Cart Empty')
     } catch (error) {
         console.log('removeCartData', error.message || error)
         toast('error', error.reason || error.message);
@@ -96,6 +96,9 @@ export const onDispatchOrder = (payload, headers) => async (dispatch) => {
     try {
         const { data } = await httpRequest.post("create/order", payload, { headers });
         console.log('createOrder', data);
+        dispatch(removeCartData(true))
+        toast('succes', 'Order Dispatch succes');
+
     } catch (error) {
         console.log('onDispatchOrder', error.message || error)
         toast('error', error.reason || error.message);

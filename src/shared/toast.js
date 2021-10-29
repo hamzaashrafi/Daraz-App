@@ -2,7 +2,11 @@
 import { ToastAndroid } from "react-native";
 
 export const toast = (type, msg, duration = 6000) => {
-    ToastAndroid.showWithGravity(msg, duration, 100)
+    ToastAndroid.showWithGravity(msg, duration,
+        ToastAndroid.BOTTOM,
+        25,
+        50
+    )
 
     // console.log(type, msg)
     // if (type === 'error') {

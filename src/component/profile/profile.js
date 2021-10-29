@@ -21,7 +21,7 @@ const Profile = (props) => {
         <SafeAreaView style={styles.container}>
             <View style={styles.userInfoSection}>
                 <View style={{ flexDirection: 'row', marginTop: 15 }}>
-                    <Avatar.Image source={{ uri: 'https://api.adorable.io/avatars/80/abott@adorable.png', }} size={80} />
+                    <Avatar.Image source={{ uri: currentUser.image || 'https://api.adorable.io/avatars/80/abott@adorable.png', }} size={80} />
                     <View style={{ marginLeft: 20 }}>
                         {currentUser.name ? <Title style={[styles.title, { marginTop: 15, marginBottom: 5, }]}>{currentUser.name}</Title> : null}
                     </View>

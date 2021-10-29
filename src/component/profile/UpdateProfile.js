@@ -29,19 +29,19 @@ const UpdateProfile = (props) => {
     }, [user])
 
     const takePhotoFromCamera = () => {
-        const obj = { compressImageMaxWidth: 300, compressImageMaxHeight: 300, cropping: true, compressImageQuality: 0.7 }
+        const obj = { compressImageMaxWidth: 300, compressImageMaxHeight: 300, cropping: true, compressImageQuality: 0.7, includeBase64: true }
         ImagePicker.openCamera(obj).then(image => {
             console.log(image);
-            setImage(image.path);
+            setImage(image);
             bs.current.snapTo(1);
         });
     }
 
     const choosePhotoFromLibrary = () => {
-        const obj = { width: 300, height: 300, cropping: true, compressImageQuality: 0.7 }
+        const obj = { width: 300, height: 300, cropping: true, compressImageQuality: 0.7, includeBase64: true }
         ImagePicker.openPicker(obj).then(image => {
             console.log(image);
-            setImage(image.path);
+            setImage(image);
             bs.current.snapTo(1);
         });
     }
