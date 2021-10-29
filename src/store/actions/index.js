@@ -14,5 +14,6 @@ export {
     removeCartData,
     removeProductInCartData,
     onDispatchOrder,
-    getOrders
+    getOrders,
+    addtofavorites
 } from './product';

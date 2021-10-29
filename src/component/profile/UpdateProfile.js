@@ -61,7 +61,10 @@ const UpdateProfile = (props) => {
                 obj[key] = value;
             }
         }
-        if (Object.keys(obj).values) {
+        if (image) {
+            obj.image = image
+        }
+        if (Object.keys(obj).length) {
             console.log(obj);
         }
         const headers = {

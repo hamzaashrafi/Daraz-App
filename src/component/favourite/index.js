@@ -8,15 +8,23 @@ import { useTheme } from 'react-native-paper';
 
 const FavouriteStack = createStackNavigator();
 const FavouriteComponent = (props) => {
-    const { product_list, navigation } = props
+    const { product_list, navigation, user } = props
     const { colors } = useTheme();
-    // const product = product_list.filter(item => item.category === props.route.title)
-    const product = product_list
+    const getFavoriteProduct = () => {
+        const products = []
+        for (let i = 0; i < product_list.length; i++) {
+            const element = product_list[i];
+            if (user.favorite_product.includes(element._id)) {
+                products.push(element)
+            }
+        }
+        return products
+    }
     return (
         <FavouriteStack.Navigator>
             <FavouriteStack.Screen
                 name="Favourite"
-                component={() => <CardComponent data={product} navigation={navigation} />}
+                component={() => <CardComponent data={getFavoriteProduct()} navigation={navigation} />}
                 options={{
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }}>
@@ -37,9 +45,10 @@ const FavouriteComponent = (props) => {
 }
 
 const mapStateToProps = (props) => {
-    const { products } = props;
+    const { products, users } = props;
     return {
-        product_list: products.product_list
+        product_list: products.product_list,
+        user: users.user,
     };
 };
 

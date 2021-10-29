@@ -12,7 +12,7 @@ import { Box, AspectRatio, Center } from 'native-base'
 import Icons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { onAddToCart } from '../../store/actions'
+import { onAddToCart, addtofavorites } from '../../store/actions'
 
 
 class Details extends Component {
@@ -30,10 +30,19 @@ class Details extends Component {
         return { selectedProduct };
     };
 
-    render() {
-        const { onAddToCart } = this.props
+    addtofavorites = () => {
+        const { addtofavorites, isUserExist, user } = this.props
         const { selectedProduct } = this.state
-        console.log('selectedProduct 222', selectedProduct);
+        if (isUserExist) {
+            addtofavorites({ productID: selectedProduct._id }, { userid: user._id })
+        }
+    }
+
+
+    render() {
+        const { onAddToCart, user } = this.props
+        const { selectedProduct } = this.state
+        const favorite = (user.favorite_product || []).find(pro => pro === selectedProduct._id);
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="light-content" />
@@ -43,7 +52,7 @@ class Details extends Component {
                             <Image source={{ uri: selectedProduct.image }} alt="image" />
                         </AspectRatio>
                         <Center position="absolute" top={0} right={0} px="1.5" py="1.5">
-                            <Icons name="ios-heart" color={'white'} size={40} />
+                            <Icons name="ios-heart" color={favorite ? "#009387" : 'white'} size={40} onPress={() => this.addtofavorites()} />
                         </Center>
                     </Box>
                     <View style={styles.section}>
@@ -81,13 +90,15 @@ class Details extends Component {
 
 
 const mapStateToProps = (props) => {
-    const { products } = props;
+    const { products, users } = props;
     return {
-        selectedProduct: products.selectedProduct
+        selectedProduct: products.selectedProduct,
+        isUserExist: users.isUserExist,
+        user: users.user,
     };
 };
 
-export default connect(mapStateToProps, { onAddToCart })(Details);
+export default connect(mapStateToProps, { onAddToCart, addtofavorites })(Details);
 
 const styles = StyleSheet.create({
     container: {

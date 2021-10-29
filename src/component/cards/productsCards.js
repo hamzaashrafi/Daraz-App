@@ -14,10 +14,10 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView, View, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { onSelectProduct } from '../../store/actions'
+import { onSelectProduct, addtofavorites } from '../../store/actions'
 
 const ProductsCards = (props) => {
-    const { product_list, onSelectProduct, isProductGetting } = props
+    const { product_list, onSelectProduct, isProductGetting, user, isUserExist, addtofavorites } = props
     const product = product_list.filter(item => item.category === props.route.title)
     const navigation = useNavigation();
 
@@ -25,6 +25,13 @@ const ProductsCards = (props) => {
         await onSelectProduct(item);
         navigation.navigate('Details')
     }
+
+    const addtofavorit = (item) => {
+        if (isUserExist) {
+            addtofavorites({ productID: item._id }, { userid: user._id })
+        }
+    }
+
     if (isProductGetting) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -39,22 +46,22 @@ const ProductsCards = (props) => {
                 keyExtractor={(item) => item._id}
                 data={product}
                 renderItem={({ item }) => {
+                    const favorite = (user.favorite_product || []).find(pro => pro === item._id);
                     return <Box
                         rounded="sm"
                         style={{ width: '45%', margin: 10, padding: 9, height: '100%', borderRadius: 20 }}
                         shadow={1}
                         _light={{ backgroundColor: 'gray.200' }}
-                        onTouchEnd={() => onselect(item)}
                         _dark={{ backgroundColor: 'gray.700' }}>
                         <Box >
-                            <AspectRatio ratio={10 / 10}>
+                            <AspectRatio ratio={10 / 10} onTouchEnd={() => onselect(item)}>
                                 <Image source={{ uri: item.image }} style={{ borderRadius: 30 }} alt="image" />
                             </AspectRatio>
                             <Center position="absolute" top={0} right={0} px="1.5" py="1.5">
-                                <Icon name="ios-heart" color={'white'} size={25} />
+                                <Icon name="ios-heart" color={favorite ? "#009387" : 'white'} onPress={() => addtofavorit(item)} size={25} />
                             </Center>
                         </Box>
-                        <Stack p="4" space={3}>
+                        <Stack p="4" space={3} onTouchEnd={() => onselect(item)}>
                             <Stack space={2}>
                                 <Heading size="sm" ml="-1">{item.name}</Heading>
                                 <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
@@ -87,11 +94,13 @@ const ProductsCards = (props) => {
 }
 
 const mapStateToProps = (props) => {
-    const { products } = props;
+    const { products, users } = props;
     return {
         product_list: products.product_list,
-        isProductGetting: products.isProductGetting
+        isUserExist: users.isUserExist,
+        user: users.user,
+        isProductGetting: products.isProductGetting,
     };
 };
 
-export default connect(mapStateToProps, { onSelectProduct })(ProductsCards);
+export default connect(mapStateToProps, { onSelectProduct, addtofavorites })(ProductsCards);

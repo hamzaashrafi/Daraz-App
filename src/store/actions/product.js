@@ -107,7 +107,18 @@ export const getOrders = (headers) => async (dispatch) => {
         const { data } = await httpRequest.get("order/get", { headers });
         console.log('getOrders', data);
     } catch (error) {
-        console.log('onDispatchOrder', error.message || error)
+        console.log('getOrders', error.message || error)
+        toast('error', error.reason || error.message);
+    }
+}
+
+export const addtofavorites = (payload, headers) => async (dispatch) => {
+    try {
+        const { data } = await httpRequest.post("customer/addtofavorites", payload, { headers });
+        console.log('addtofavorites', data);
+        dispatch({ type: types.GET_FAVORITE_PRODUCTS_OF_USER, user: data });
+    } catch (error) {
+        console.log('addtofavorites', error.message || error)
         toast('error', error.reason || error.message);
     }
 }

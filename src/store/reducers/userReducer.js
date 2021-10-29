@@ -24,6 +24,9 @@ function userReducer(state = initialState, action) {
         case types.UPDATE_USER_FILED:
             return { ...state, };
 
+        case types.GET_FAVORITE_PRODUCTS_OF_USER:
+            return { ...state, user: action.user };
+
         case types.SING_OUT:
             return { ...state, user: {}, isUserExist: false };
 

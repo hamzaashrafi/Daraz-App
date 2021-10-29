@@ -51,9 +51,7 @@ class DrawerContent extends Component {
                         <View style={styles.userInfoSection}>
                             <View style={{ flexDirection: 'row', marginTop: 15 }}>
                                 <Avatar.Image
-                                    source={{
-                                        uri: 'https://api.adorable.io/avatars/50/abott@adorable.png'
-                                    }}
+                                    source={{ uri: 'https://api.adorable.io/avatars/50/abott@adorable.png' }}
                                     size={50}
                                 />
                                 <View style={{ marginLeft: 15, flexDirection: 'column' }}>
@@ -61,19 +59,7 @@ class DrawerContent extends Component {
                                     {/* <Caption style={styles.caption}>@j_doe</Caption> */}
                                 </View>
                             </View>
-
-                            {/* <View style={styles.row}>
-                                <View style={styles.section}>
-                                    <Paragraph style={[styles.paragraph, styles.caption]}>80</Paragraph>
-                                    <Caption style={styles.caption}>Following</Caption>
-                                </View>
-                                <View style={styles.section}>
-                                    <Paragraph style={[styles.paragraph, styles.caption]}>100</Paragraph>
-                                    <Caption style={styles.caption}>Followers</Caption>
-                                </View>
-                            </View> */}
                         </View>
-
                         <Drawer.Section style={styles.drawerSection}>
                             <DrawerItem
                                 icon={({ color, size }) => (
@@ -111,13 +97,24 @@ class DrawerContent extends Component {
                             <DrawerItem
                                 icon={({ color, size }) => (
                                     <Icon
-                                        name="Search-outline"
+                                        name="card-search-outline"
                                         color={color}
                                         size={size}
                                     />
                                 )}
                                 label="Search"
                                 onPress={() => { this.props.navigation.navigate('Search') }}
+                            />
+                            <DrawerItem
+                                icon={({ color, size }) => (
+                                    <Icon
+                                        name="format-list-bulleted"
+                                        color={color}
+                                        size={size}
+                                    />
+                                )}
+                                label="Orders"
+                                onPress={() => { this.props.navigation.navigate('Orders') }}
                             />
                             <DrawerItem
                                 icon={({ color, size }) => (

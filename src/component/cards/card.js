@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Icons from 'react-native-vector-icons/Ionicons';
 import { Box, Heading, AspectRatio, Image, Text, Center, HStack, Stack, FlatList } from 'native-base';
-import { onSelectProduct } from '../../store/actions'
+import { onSelectProduct, addtofavorites } from '../../store/actions'
 import { connect } from 'react-redux';
 import { SafeAreaView, ActivityIndicator, View } from 'react-native';
 
@@ -27,9 +27,16 @@ class CardComponent extends Component {
         navigation.navigate('Details')
     }
 
+    addtofavorites = (item) => {
+        const { addtofavorites, isUserExist, user } = this.props
+        if (isUserExist) {
+            addtofavorites({ productID: item._id }, { userid: user._id })
+        }
+    }
+
     render() {
         const { data } = this.state
-        const { isProductGetting } = this.props
+        const { isProductGetting, user } = this.props
         if (isProductGetting) {
             return (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -44,22 +51,23 @@ class CardComponent extends Component {
                     numColumns={2}
                     keyExtractor={(item) => item.price}
                     renderItem={({ item }) => {
+                        const favorite = (user.favorite_product || []).find(pro => pro === item._id);
+                        console.log('favorite', favorite);
                         return <Box
                             rounded="sm"
                             style={{ width: '45%', margin: 10, padding: 9, height: '95%', borderRadius: 20 }}
                             shadow={1}
                             _light={{ backgroundColor: 'gray.200' }}
-                            onTouchEnd={() => this.onselect(item)}
                             _dark={{ backgroundColor: 'gray.700' }}>
                             <Box>
-                                <AspectRatio ratio={10 / 9}>
+                                <AspectRatio ratio={10 / 9} onTouchEnd={() => this.onselect(item)}>
                                     <Image source={{ uri: item.image }} style={{ borderRadius: 30 }} alt="image" />
                                 </AspectRatio>
                                 <Center position="absolute" top={0} right={0} px="1.5" py="1.5">
-                                    <Icons name="ios-heart" color={'white'} size={25} />
+                                    <Icons name="ios-heart" onPress={() => this.addtofavorites(item)} color={favorite ? "#009387" : 'white'} size={25} />
                                 </Center>
                             </Box>
-                            <Stack p="4" space={3}>
+                            <Stack p="4" space={3} onTouchEnd={() => this.onselect(item)}>
                                 <Stack space={2}>
                                     <Heading size="sm" ml="-1">{item.name}</Heading>
                                     <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
@@ -94,11 +102,13 @@ class CardComponent extends Component {
 
 
 const mapStateToProps = (props) => {
-    const { products } = props;
+    const { products, users } = props;
     return {
         product_list: products.product_list,
-        isProductGetting: products.isProductGetting
+        isProductGetting: products.isProductGetting,
+        isUserExist: users.isUserExist,
+        user: users.user,
     };
 };
 
-export default connect(mapStateToProps, { onSelectProduct })(CardComponent);
+export default connect(mapStateToProps, { onSelectProduct, addtofavorites })(CardComponent);
