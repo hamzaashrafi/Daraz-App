@@ -6,8 +6,11 @@ import {
     Icon,
     Center,
 } from 'native-base';
-import { SafeAreaView } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { SafeAreaView, View } from 'react-native';
 import CardComponent from '../cards/card'
+
+const SearchStack = createStackNavigator();
 
 class SearchComponent extends Component {
 
@@ -53,20 +56,39 @@ class SearchComponent extends Component {
         console.log('searchedProducts', searchedProducts);
         const data = isSearched ? searchedProducts : product_list
         return (
-            <SafeAreaView>
-                <Center px="2">
-                    <Input
-                        placeholder="Search"
-                        onChangeText={this.onSearch}
-                        InputRightElement={
-                            <Icon
-                                as={<Icons name="ios-search" color={'white'} size={26} />}
-                                size={26}
-                                m="2"
-                                color="muted.400" />} />
-                </Center>
-                {(data && data.length) ? <CardComponent data={data} navigation={navigation} /> : <Center px="2">Not Availabe</Center>}
-            </SafeAreaView>
+            <SearchStack.Navigator>
+                <SearchStack.Screen
+                    name="Search Product"
+                    component={() => <SafeAreaView>
+                        <Center px="2">
+                            <Input
+                                placeholder="Search"
+                                onChangeText={this.onSearch}
+                                InputRightElement={
+                                    <Icon
+                                        as={<Icons name="ios-search" color={'white'} size={26} />}
+                                        size={26}
+                                        m="2"
+                                        color="muted.400" />} />
+                        </Center>
+                        {(data && data.length) ? <CardComponent data={data} navigation={navigation} /> : <Center px="2">Not Availabe</Center>}
+                    </SafeAreaView>}
+                    options={{
+                        headerLeft: () => (
+                            <View style={{ marginLeft: 10 }}>
+                                <Icons.Button
+                                    name="ios-menu"
+                                    size={25}
+                                    backgroundColor='#ffffff'
+                                    color='#333333'
+                                    onPress={() => navigation.openDrawer()}
+                                />
+                            </View>
+                        )
+                    }}
+                />
+            </SearchStack.Navigator>
+
         )
     }
 }

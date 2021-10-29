@@ -11,5 +11,6 @@ export {
     onSelectProduct,
     onAddToCart,
     getCartDate,
-    removeCartData
+    removeCartData,
+    removeProductInCartData
 } from './product';

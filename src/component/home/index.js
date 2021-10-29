@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 const Tab = createMaterialBottomTabNavigator();
 const MainTabScreen = (props) => {
-    const { cartData } = props
+    const { cartData, isUserExist } = props
     const { colors } = useTheme();
     return <Tab.Navigator initialRouteName="Home" activeColor="#fff" screenOptions={{ tabBarColor: colors.themeColor }}>
         <Tab.Screen
@@ -20,28 +20,36 @@ const MainTabScreen = (props) => {
                 tabBarIcon: ({ color }) => (<Icon name="ios-home" color={color} size={26} />)
             }}
         />
-        <Tab.Screen
-            name="Search"
-            component={SearchComponent}
-            options={{
-                tabBarLabel: 'Search',
-                tabBarIcon: ({ color }) => (<Icon name="ios-search" color={color} size={26} />)
-            }}
-        />
-        <Tab.Screen
+        {isUserExist ? <Tab.Screen
             name="Profile"
             component={ProfileComponent}
             options={{
                 tabBarLabel: 'Profile',
                 tabBarIcon: ({ color }) => (<Icon name="ios-person" color={color} size={26} />)
             }}
-        />
+        /> : null}
+        {isUserExist ? <Tab.Screen
+            name="Orders"
+            component={ProfileComponent}
+            options={{
+                tabBarLabel: 'Orders',
+                tabBarIcon: ({ color }) => (<Icon name="ios-list" color={color} size={26} />)
+            }}
+        /> : null}
         <Tab.Screen
             name="Favourite"
             component={FavouriteComponent}
             options={{
                 tabBarLabel: 'Favourite',
                 tabBarIcon: ({ color }) => (<Icon name="ios-heart" color={color} size={26} />)
+            }}
+        />
+        <Tab.Screen
+            name="Search"
+            component={SearchComponent}
+            options={{
+                tabBarLabel: 'Search',
+                tabBarIcon: ({ color }) => (<Icon name="ios-search" color={color} size={26} />)
             }}
         />
         <Tab.Screen
@@ -58,9 +66,10 @@ const MainTabScreen = (props) => {
 
 
 const mapStateToProps = (props) => {
-    const { products } = props;
+    const { products, users } = props;
     return {
-        cartData: products.cartData
+        cartData: products.cartData,
+        isUserExist: users.isUserExist,
     };
 };
 

@@ -52,10 +52,10 @@ class Details extends Component {
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                                <Text style={{ textDecorationLine: 'line-through', textDecorationStyle: 'solid' }}>
+                                <Text style={{ textDecorationLine: 'line-through', textDecorationStyle: 'solid', color: 'black' }}>
                                     Rs {selectedProduct.price}
                                 </Text>
-                                <Text style={{ marginHorizontal: 2 }}>Rs {selectedProduct.price - (selectedProduct.price * selectedProduct.discount / 100)}</Text>
+                                <Text style={{ marginHorizontal: 2, color: 'black' }}>Rs {selectedProduct.price - (selectedProduct.price * selectedProduct.discount / 100)}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                                 <Text style={{ marginHorizontal: 2, color: 'red' }}>{selectedProduct.discount}% off</Text>
@@ -96,6 +96,9 @@ const styles = StyleSheet.create({
     },
     name: {
         fontWeight: 'bold',
+        color: 'black',
+        fontSize: 20,
+        margin: 10
     },
     section: {
         padding: 20,
@@ -106,6 +109,7 @@ const styles = StyleSheet.create({
     sectionContent: {
         fontSize: 16,
         textAlign: 'justify',
+        color: 'black'
     },
     sectionLarge: {
         minHeight: 100,
@@ -120,5 +124,8 @@ const styles = StyleSheet.create({
     addToCartBtnTxt: {
         fontSize: 18,
         fontWeight: 'bold'
+    },
+    text: {
+        color: 'black'
     }
 });

@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { Text, View, FlatList, Image, SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { onAddToCart, removeCartData } from '../../store/actions'
+import { onAddToCart, removeCartData, removeProductInCartData } from '../../store/actions'
+import { Button } from 'native-base'
 
 const Cart = (props) => {
-    const { cartData, navigation, onAddToCart, removeCartData } = props
+    const { cartData, navigation, onAddToCart, removeCartData, removeProductInCartData } = props
 
     const getTotalPrice = () => {
         let price = 0
@@ -27,7 +28,7 @@ const Cart = (props) => {
                             <View style={(index + 1 === cartData.length) ? styles.lastItemStyle : styles.containerStyle}>
                                 <Image source={{ uri: item.image }} style={styles.imageStyle} />
 
-                                <View style={styles.extStyle}>
+                                <View style={styles.textStyle}>
                                     <Text style={{ color: '#2e2f30' }}>{item.name}</Text>
                                     <View style={styles.priceStyle}>
                                         <Text style={{ color: '#2e2f30', fontSize: 12 }}>${item.qty * (item.price - (item.price * item.discount / 100))}</Text>
@@ -42,9 +43,9 @@ const Cart = (props) => {
                                         color='#fff'
                                         backgroundColor='#fff'
                                         style={{ borderRadius: 20, backgroundColor: '#bbb', height: 35, width: 35 }}
-                                        iconStyle={{ marginRight: 0 }}
+                                        iconStyle={{ marginRight: 0, }}
                                     />
-                                    <Text>{item.qty}</Text>
+                                    <Text style={styles.text}>{item.qty}</Text>
                                     <Icon.Button
                                         name="ios-add"
                                         size={20}
@@ -54,7 +55,7 @@ const Cart = (props) => {
                                         style={{ borderRadius: 20, backgroundColor: '#bbb', height: 35, width: 35 }}
                                         iconStyle={{ marginRight: 0 }}
                                     />
-
+                                    <Icon name="ios-trash" size={25} onPress={() => removeProductInCartData(item._id)} />
                                 </View>
                             </View>
                         )
@@ -64,24 +65,25 @@ const Cart = (props) => {
             <View style={styles.footerContainerStyle}>
                 <View style={styles.totalContainerStyle}>
                     <View style={styles.goodsStyle}>
-                        <Icon name="ios-cart" size={20} style={{ marginRight: 8 }} />
-                        <Text>{cartData.length} Items</Text>
+                        <Icon name="ios-cart" size={20} style={{ marginRight: 8, color: 'black' }} />
+                        <Text style={styles.text}>{cartData.length} Items</Text>
                     </View>
 
                     <View style={styles.totalStyle}>
-                        <Text>Total - </Text>
-                        <Text>Rs {getTotalPrice()}</Text>
+                        <Text style={styles.text}>Total - </Text>
+                        <Text style={styles.text}>Rs {getTotalPrice()}</Text>
                     </View>
                 </View>
                 <View style={styles.buttonContainerStyle}>
-                    <Icon.Button
-                        name="ios-trash-outline"
+                    <Button
+                        background='#009387'
                         onPress={() => removeCartData()}
-                        size={20}
-                        iconStyle={{ marginRight: 0 }}
-                    />
+                        leftIcon={<Icon name="ios-trash-outline" size={20} style={{ color: '#fff' }} />}
+                    >
+                        Remove all
+                    </Button>
                     <View style={styles.checkoutButtonStyle}>
-                        <Text style={{ color: '#fff' }}>Go to checkout</Text>
+                        <Text style={{ color: '#fff' }}>Order Now</Text>
                     </View>
                 </View>
             </View>
@@ -96,7 +98,7 @@ const mapStateToProps = (props) => {
     };
 };
 
-export default connect(mapStateToProps, { onAddToCart, removeCartData })(Cart);
+export default connect(mapStateToProps, { onAddToCart, removeCartData, removeProductInCartData })(Cart);
 
 const styles = {
     containerStyle: {
@@ -125,16 +127,12 @@ const styles = {
         marginRight: 20
     },
     textStyle: {
-        flex: 2,
-        justifyContent: 'center'
-    },
-    textStyle: {
-        flex: 2,
-        justifyContent: 'center'
+        flex: 0.7,
+        justifyContent: 'center',
     },
     priceStyle: {
         backgroundColor: '#ddd',
-        width: 40,
+        width: 90,
         alignItems: 'center',
         marginTop: 3,
         borderRadius: 3
@@ -183,6 +181,9 @@ const styles = {
     totalStyle: {
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    text: {
+        color: 'black'
     }
 };
 

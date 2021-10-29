@@ -1,5 +1,5 @@
 import { httpRequest } from '../../config';
-import { getAppStorage, removeAppStorageByKey, setAppStorage } from '../../shared';
+import { getAppStorage, removeAppStorageByKey, setAppStorage, toast } from '../../shared';
 import { types } from '../actionTypes';
 
 export const createProduct = (payload) => async (dispatch) => {
@@ -50,23 +50,42 @@ export const onAddToCart = (product, action = "+") => async (dispatch) => {
         }
         setAppStorage('cartData', cartData)
         dispatch({ type: types.ADD_TO_CART, cartData });
+        toast('success', 'Add to cart success')
     } catch (error) {
         console.log('onAddToCart', error.message || error)
+        toast('error', error.reason || error.message);
     }
 }
+
 export const removeCartData = () => async (dispatch) => {
     try {
         await removeAppStorageByKey('cartData')
         dispatch({ type: types.REMOVE_CART_DATA });
     } catch (error) {
         console.log('removeCartData', error.message || error)
+        toast('error', error.reason || error.message);
     }
 }
+
+export const removeProductInCartData = (productId) => async (dispatch) => {
+    try {
+        const cartData = await getAppStorage('cartData') || []
+        const index = cartData.findIndex(item => item._id === productId)
+        cartData.splice(index, 1)
+        setAppStorage('cartData', cartData)
+        dispatch({ type: types.ADD_TO_CART, cartData });
+    } catch (error) {
+        console.log('removeProductInCartData', error.message || error)
+        toast('error', error.reason || error.message);
+    }
+}
+
 export const getCartDate = (products) => async (dispatch) => {
     try {
         dispatch({ type: types.ADD_TO_CART, cartData: products });
     } catch (error) {
         console.log('getCartDate', error.message || error)
+        toast('error', error.reason || error.message);
     }
 }
 
