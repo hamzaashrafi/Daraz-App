@@ -31,7 +31,7 @@ export const onSelectProduct = (product) => async (dispatch) => {
     dispatch({ type: types.ON_SELECT_PRODUCT, product });
 }
 
-export const onAddToCart = (product, action = "+") => async (dispatch) => {
+export const onAddToCart = (product, action = "+", showToast) => async (dispatch) => {
     try {
         const cartData = await getAppStorage('cartData') || []
         const index = cartData.findIndex(item => item._id === product._id)
@@ -50,7 +50,7 @@ export const onAddToCart = (product, action = "+") => async (dispatch) => {
         }
         setAppStorage('cartData', cartData)
         dispatch({ type: types.ADD_TO_CART, cartData });
-        toast('success', 'Add to cart success')
+        if (!showToast) toast('success', 'Add to cart success')
     } catch (error) {
         console.log('onAddToCart', error.message || error)
         toast('error', error.reason || error.message);

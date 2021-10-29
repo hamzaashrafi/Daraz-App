@@ -17,7 +17,7 @@ const Cart = (props) => {
         return price
     }
 
-    
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.containterStyle}>
@@ -37,24 +37,23 @@ const Cart = (props) => {
                                 </View>
 
                                 <View style={styles.counterStyle}>
-                                    <Icon.Button
+                                    <Icon
                                         name="ios-remove"
-                                        onPress={() => onAddToCart(item, '-')}
+                                        onPress={() => onAddToCart(item, '-', true)}
                                         size={20}
                                         color='#fff'
                                         backgroundColor='#fff'
-                                        style={{ borderRadius: 20, backgroundColor: '#bbb', height: 35, width: 35 }}
-                                        iconStyle={{ marginRight: 0, }}
+                                        style={{ borderRadius: 20, paddingHorizontal: 8, paddingVertical: 7, backgroundColor: '#bbb', height: 35, width: 35 }}
                                     />
                                     <Text style={styles.text}>{item.qty}</Text>
-                                    <Icon.Button
+                                    <Icon
                                         name="ios-add"
                                         size={20}
-                                        onPress={() => onAddToCart(item)}
+                                        onPress={() => onAddToCart(item, "+", true)}
                                         color='#fff'
                                         backgroundColor='#fff'
-                                        style={{ borderRadius: 20, backgroundColor: '#bbb', height: 35, width: 35 }}
-                                        iconStyle={{ marginRight: 0 }}
+                                        style={{ borderRadius: 20, paddingHorizontal: 8, paddingVertical: 7, backgroundColor: '#bbb', height: 35, width: 35 }}
+                                    // iconStyle={{ marginRight: 0 }}
                                     />
                                     <Icon name="ios-trash" style={{ color: 'gray' }} size={25} onPress={() => removeProductInCartData(item._id)} />
                                 </View>
