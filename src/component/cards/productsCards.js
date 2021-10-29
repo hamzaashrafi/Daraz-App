@@ -32,13 +32,13 @@ const ProductsCards = (props) => {
         }
     }
 
-    if (isProductGetting) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size="large" />
-            </View>
-        );
-    }
+    // if (isProductGetting) {
+    //     return (
+    //         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    //             <ActivityIndicator size="large" />
+    //         </View>
+    //     );
+    // }
     return (
         <SafeAreaView>
             <FlatList

@@ -5,7 +5,7 @@ import { LoginComponent, SignupComponent, DrawerContent, MainTabScreen, ProductD
 import { connect } from 'react-redux';
 import { getOrders, getProducts } from '../store/actions'
 import { View, ActivityIndicator } from 'react-native';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 import {
     Provider as PaperProvider,
     DefaultTheme as PaperDefaultTheme,
@@ -52,17 +52,14 @@ class Routing extends Component {
     };
 
     render() {
-        const { isUserGetting } = this.props
-        if (isUserGetting) {
-            return (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <ActivityIndicator size="large" />
-                </View>
-            );
-        }
-
+        const { isUserGetting, isProductGetting } = this.props
         return (
             <PaperProvider theme={CustomDefaultTheme}>
+                <Spinner
+                    visible={isUserGetting || isProductGetting}
+                    textContent={'Loading...'}
+                    textStyle={{ color: 'white' }}
+                />
                 <NavigationContainer theme={CustomDefaultTheme}>
                     <Drawer.Navigator
                         initialRouteName="Home"
@@ -80,11 +77,12 @@ class Routing extends Component {
     }
 }
 const mapStateToProps = (props) => {
-    const { users } = props;
+    const { users, products } = props;
     return {
         isUserExist: users.isUserExist,
         user: users.user,
         isUserGetting: users.isUserGetting,
+        isProductGetting: products.isProductGetting,
     };
 };
 

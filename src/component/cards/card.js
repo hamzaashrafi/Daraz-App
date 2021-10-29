@@ -3,7 +3,7 @@ import Icons from 'react-native-vector-icons/Ionicons';
 import { Box, Heading, AspectRatio, Image, Text, Center, HStack, Stack, FlatList } from 'native-base';
 import { onSelectProduct, addtofavorites } from '../../store/actions'
 import { connect } from 'react-redux';
-import { SafeAreaView, ActivityIndicator, View } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 
 class CardComponent extends Component {
 
@@ -37,13 +37,13 @@ class CardComponent extends Component {
     render() {
         const { data } = this.state
         const { isProductGetting, user } = this.props
-        if (isProductGetting) {
-            return (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <ActivityIndicator size="large" />
-                </View>
-            );
-        }
+        // if (isProductGetting) {
+        //     return (
+        //         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        //             <ActivityIndicator size="large" />
+        //         </View>
+        //     );
+        // }
         return (
             <SafeAreaView>
                 <FlatList
