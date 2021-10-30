@@ -7,6 +7,7 @@ import { StatusBar } from 'react-native';
 import auth from '@react-native-firebase/auth'
 import { signout, resetSigninUserState, getProducts, getCartDate } from './src/store/actions'
 import { getAppStorage } from './src/shared';
+import { LogBox} from 'react-native';
 
 class App extends Component {
 
@@ -19,6 +20,7 @@ class App extends Component {
 
 
   async componentDidMount() {
+    LogBox.ignoreLogs(['Setting a timer for a long period of time'])
     auth().onAuthStateChanged(async userAuth => {
       console.log("userAuth ", userAuth)
       if (userAuth) {

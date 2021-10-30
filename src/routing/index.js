@@ -1,7 +1,7 @@
 import React, { Component, useEffect } from 'react'
 import { NavigationContainer, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { LoginComponent, SignupComponent, DrawerContent, MainTabScreen, ProductDetails } from '../component'
+import { LoginComponent, SignupComponent, DrawerContent, MainTabScreen, ProductDetails, ProfileComponent } from '../component'
 import { connect } from 'react-redux';
 import { getOrders, getProducts } from '../store/actions'
 import { View, ActivityIndicator } from 'react-native';
@@ -67,6 +67,7 @@ class Routing extends Component {
                         screenOptions={{ headerShown: false }}
                     >
                         <Drawer.Screen name="Home" component={MainTabScreen} />
+                        <Drawer.Screen name="Profile" component={ProfileComponent} />
                         <Drawer.Screen name="Login" component={LoginComponent} />
                         <Drawer.Screen name="Signup" component={SignupComponent} />
                         <Drawer.Screen name="Details" component={ProductDetails} />
