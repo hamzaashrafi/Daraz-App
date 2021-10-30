@@ -3,7 +3,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeComponent from './Home';
 import { useTheme } from 'react-native-paper';
-import { FavouriteComponent, SearchComponent, ProfileComponent, CartComponent } from '../'
+import { FavouriteComponent, SearchComponent, ProfileComponent, CartComponent, OrderDetails } from '../'
 import { connect } from 'react-redux';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -16,32 +16,7 @@ const MainTabScreen = (props) => {
             component={HomeComponent}
             options={{
                 tabBarLabel: 'Home',
-                tabBarBadge: 3,
                 tabBarIcon: ({ color }) => (<Icon name="ios-home" color={color} size={26} />)
-            }}
-        />
-        {isUserExist ? <Tab.Screen
-            name="Profile"
-            component={ProfileComponent}
-            options={{
-                tabBarLabel: 'Profile',
-                tabBarIcon: ({ color }) => (<Icon name="ios-person" color={color} size={26} />)
-            }}
-        /> : null}
-        {isUserExist ? <Tab.Screen
-            name="Orders"
-            component={ProfileComponent}
-            options={{
-                tabBarLabel: 'Orders',
-                tabBarIcon: ({ color }) => (<Icon name="ios-list" color={color} size={26} />)
-            }}
-        /> : null}
-        <Tab.Screen
-            name="Favourite"
-            component={FavouriteComponent}
-            options={{
-                tabBarLabel: 'Favourite',
-                tabBarIcon: ({ color }) => (<Icon name="ios-heart" color={color} size={26} />)
             }}
         />
         <Tab.Screen
@@ -52,6 +27,22 @@ const MainTabScreen = (props) => {
                 tabBarIcon: ({ color }) => (<Icon name="ios-search" color={color} size={26} />)
             }}
         />
+        <Tab.Screen
+            name="Favourite"
+            component={FavouriteComponent}
+            options={{
+                tabBarLabel: 'Favourite',
+                tabBarIcon: ({ color }) => (<Icon name="ios-heart" color={color} size={26} />)
+            }}
+        />
+        {isUserExist ? <Tab.Screen
+            name="Orders"
+            component={OrderDetails}
+            options={{
+                tabBarLabel: 'Orders',
+                tabBarIcon: ({ color }) => (<Icon name="ios-list" color={color} size={26} />)
+            }}
+        /> : null}
         <Tab.Screen
             name="Cart"
             component={CartComponent}

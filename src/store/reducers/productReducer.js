@@ -12,8 +12,10 @@ let initialState = {
         { key: 'aaaaaa', title: 'cccccc' },
     ],
     product_list: [],
+    order_list: [],
     selectedProduct: {},
-    isProductGetting: false
+    isProductGetting: false,
+    isOrderGetting: false,
 };
 
 function productsReducer(state = initialState, action) {
@@ -25,6 +27,14 @@ function productsReducer(state = initialState, action) {
             return { ...state, product_list: action.product_list, isProductGetting: false };
         case types.GET_PRODUCTS_FILED:
             return { ...state, isProductGetting: false };
+
+
+        case types.GET_ORDER_START:
+            return { ...state, isOrderGetting: true };
+        case types.GET_ORDER_SUCCESS:
+            return { ...state, order_list: action.order_list, isOrderGetting: false };
+        case types.GET_ORDER_FILED:
+            return { ...state, isOrderGetting: false };
 
         case types.ON_SELECT_PRODUCT:
             return { ...state, selectedProduct: action.product };

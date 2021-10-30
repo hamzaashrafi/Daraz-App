@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, Text } from 'react-native';
 import CardComponent from '../cards/card'
 import { useTheme } from 'react-native-paper';
 
@@ -24,7 +24,13 @@ const FavouriteComponent = (props) => {
         <FavouriteStack.Navigator>
             <FavouriteStack.Screen
                 name="Favourite"
-                component={() => <CardComponent data={getFavoriteProduct()} navigation={navigation} />}
+                component={() => getFavoriteProduct().length
+                    ? <CardComponent data={getFavoriteProduct()} navigation={navigation} />
+                    : <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 250, marginHorizontal: 50 }}>
+                        <Text style={{ color: 'black' }}>Your Favorite List is Empty</Text>
+                        <Text style={{ color: 'gray', textAlign: 'center' }}>Save your favorite product so you can always find it here and make order easier</Text>
+                    </View>
+                }
                 options={{
                     headerLeft: () => (
                         <View style={{ marginLeft: 10 }}>

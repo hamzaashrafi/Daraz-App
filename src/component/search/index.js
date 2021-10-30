@@ -7,7 +7,7 @@ import {
     Center,
 } from 'native-base';
 import { createStackNavigator } from '@react-navigation/stack';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, Text } from 'react-native';
 import CardComponent from '../cards/card'
 
 const SearchStack = createStackNavigator();
@@ -71,7 +71,9 @@ class SearchComponent extends Component {
                                         m="2"
                                         color="muted.400" />} />
                         </Center>
-                        {(data && data.length) ? <CardComponent data={data} navigation={navigation} /> : <Center px="2">Not Availabe</Center>}
+                        {(data && data.length)
+                            ? <CardComponent data={data} navigation={navigation} />
+                            : <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 250 }}><Text style={{ color: 'red' }}>Not Availabe</Text></View>}
                     </SafeAreaView>}
                     options={{
                         headerLeft: () => (

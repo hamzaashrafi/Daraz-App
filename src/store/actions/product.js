@@ -98,7 +98,7 @@ export const onDispatchOrder = (payload, headers) => async (dispatch) => {
         console.log('createOrder', data);
         dispatch(removeCartData(true))
         toast('succes', 'Order Dispatch succes');
-
+        dispatch({ type: types.GET_ORDER_SUCCESS, order_list: data });
     } catch (error) {
         console.log('onDispatchOrder', error.message || error)
         toast('error', error.reason || error.message);
@@ -107,10 +107,13 @@ export const onDispatchOrder = (payload, headers) => async (dispatch) => {
 
 export const getOrders = (headers) => async (dispatch) => {
     try {
+        dispatch({ type: types.GET_ORDER_START });
         const { data } = await httpRequest.get("order/get", { headers });
         console.log('getOrders', data);
+        dispatch({ type: types.GET_ORDER_SUCCESS, order_list: data });
     } catch (error) {
         console.log('getOrders', error.message || error)
+        dispatch({ type: types.GET_ORDER_FILED });
         toast('error', error.reason || error.message);
     }
 }

@@ -45,10 +45,11 @@ const ProductsCards = (props) => {
                 numColumns={2}
                 keyExtractor={(item) => item._id}
                 data={product}
-                renderItem={({ item }) => {
+                renderItem={({ item ,index}) => {
                     const favorite = (user.favorite_product || []).find(pro => pro === item._id);
                     return <Box
                         rounded="sm"
+                        key={index}
                         style={{ width: '45%', margin: 10, padding: 9, height: '100%', borderRadius: 20 }}
                         shadow={1}
                         _light={{ backgroundColor: 'gray.200' }}

@@ -22,11 +22,19 @@ const Cart = (props) => {
         try {
             if (!isUserExist) throw new Error('Login or SignUp First')
             if (cartData && cartData.length) {
+                const items = []
+                for (let i = 0; i < cartData.length; i++) {
+                    const element = cartData[i];
+                    items.push({
+                        qty: element.qty,
+                        data: element._id
+                    })
+                }
                 const orderObj = {
                     customer: user._id,
                     order_id: generateOrderId(),
                     price: getTotalPrice(),
-                    items: cartData,
+                    items: items,
                 }
                 console.log('orderObj', orderObj);
                 onDispatchOrder(orderObj, { userid: user._id })
@@ -44,7 +52,7 @@ const Cart = (props) => {
                     keyExtractor={(item) => item._id}
                     renderItem={({ item, index }) => {
                         return (
-                            <View style={(index + 1 === cartData.length) ? styles.lastItemStyle : styles.containerStyle}>
+                            <View key={index} style={(index + 1 === cartData.length) ? styles.lastItemStyle : styles.containerStyle}>
                                 <Image source={{ uri: item.image }} style={styles.imageStyle} />
 
                                 <View style={styles.textStyle}>

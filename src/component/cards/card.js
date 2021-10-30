@@ -50,10 +50,11 @@ class CardComponent extends Component {
                     data={data}
                     numColumns={2}
                     keyExtractor={(item) => item.price}
-                    renderItem={({ item }) => {
+                    renderItem={({ item, index }) => {
                         const favorite = (user.favorite_product || []).find(pro => pro === item._id);
                         console.log('favorite', favorite);
                         return <Box
+                            key={index}
                             rounded="sm"
                             style={{ width: '45%', margin: 10, padding: 9, height: '95%', borderRadius: 20 }}
                             shadow={1}

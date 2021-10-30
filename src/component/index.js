@@ -8,3 +8,4 @@ export { default as SearchComponent } from './search';
 export { default as ProfileComponent } from './profile';
 export { default as ProductDetails } from './productDetails';
 export { default as CartComponent } from './cart';
+export { default as OrderDetails } from './orders';
