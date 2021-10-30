@@ -14,7 +14,7 @@ const FavouriteComponent = (props) => {
         const products = []
         for (let i = 0; i < product_list.length; i++) {
             const element = product_list[i];
-            if (user.favorite_product.includes(element._id)) {
+            if (user && user.favorite_product && user.favorite_product.includes(element._id)) {
                 products.push(element)
             }
         }
