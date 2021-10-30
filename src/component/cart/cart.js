@@ -2,12 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { Text, View, FlatList, Image, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { onAddToCart, removeCartData, removeProductInCartData, onDispatchOrder } from '../../store/actions'
+import { onAddToCart, removeCartData, removeProductInCartData } from '../../store/actions'
 import { Button } from 'native-base'
-import { generateOrderId, toast } from '../../shared'
 
 const Cart = (props) => {
-    const { cartData, navigation, onAddToCart, removeCartData, removeProductInCartData, isUserExist, onDispatchOrder, user } = props
+    const { cartData, navigation, onAddToCart, removeCartData, removeProductInCartData } = props
 
     const getTotalPrice = () => {
         let price = 0
@@ -16,32 +15,6 @@ const Cart = (props) => {
             price = price + (element.qty * (element.price - (element.price * element.discount / 100)))
         }
         return price
-    }
-
-    const onOrder = () => {
-        try {
-            if (!isUserExist) throw new Error('Login or SignUp First')
-            if (cartData && cartData.length) {
-                const items = []
-                for (let i = 0; i < cartData.length; i++) {
-                    const element = cartData[i];
-                    items.push({
-                        qty: element.qty,
-                        data: element._id
-                    })
-                }
-                const orderObj = {
-                    customer: user._id,
-                    order_id: generateOrderId(),
-                    price: getTotalPrice(),
-                    items: items,
-                }
-                console.log('orderObj', orderObj);
-                onDispatchOrder(orderObj, { userid: user._id })
-            }
-        } catch (error) {
-            toast('error', error.reason || error.message);
-        }
     }
 
     return (
@@ -108,8 +81,8 @@ const Cart = (props) => {
                     >
                         Remove all
                     </Button>
-                    <TouchableOpacity style={styles.checkoutButtonStyle} onPress={() => onOrder()}>
-                        <Text style={{ color: '#fff' }}>Order Now</Text>
+                    <TouchableOpacity style={styles.checkoutButtonStyle} onPress={() => cartData && cartData.length ? navigation.navigate('Chechkout') : null}>
+                        <Text style={{ color: '#fff' }}>Checkout</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -126,7 +99,7 @@ const mapStateToProps = (props) => {
     };
 };
 
-export default connect(mapStateToProps, { onAddToCart, removeCartData, removeProductInCartData, onDispatchOrder })(Cart);
+export default connect(mapStateToProps, { onAddToCart, removeCartData, removeProductInCartData })(Cart);
 
 const styles = {
     containerStyle: {

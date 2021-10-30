@@ -92,15 +92,20 @@ export const getCartDate = (products) => async (dispatch) => {
     }
 }
 
-export const onDispatchOrder = (payload, headers) => async (dispatch) => {
+export const onDispatchOrder = (payload, headers, func) => async (dispatch) => {
     try {
+        dispatch({ type: types.GET_ORDER_START });
         const { data } = await httpRequest.post("create/order", payload, { headers });
         console.log('createOrder', data);
-        dispatch(removeCartData(true))
+        await dispatch(removeCartData(true))
         toast('succes', 'Order Dispatch succes');
         dispatch({ type: types.GET_ORDER_SUCCESS, order_list: data });
+        if (func) {
+            func()
+        }
     } catch (error) {
         console.log('onDispatchOrder', error.message || error)
+        dispatch({ type: types.GET_ORDER_FILED });
         toast('error', error.reason || error.message);
     }
 }
