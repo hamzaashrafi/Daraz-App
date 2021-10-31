@@ -17,6 +17,16 @@ const Cart = (props) => {
         return price
     }
 
+    const getTotalDsicount = () => {
+        let price = 0
+        for (let i = 0; i < cartData.length; i++) {
+            const element = cartData[i];
+            element.qty * (element.price - (element.price * element.discount / 100))
+            price = price + ((element.qty * element.price) - element.qty * (element.price - (element.price * element.discount / 100)))
+        }
+        return price
+    }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.containterStyle}>
@@ -31,10 +41,12 @@ const Cart = (props) => {
                                 <View style={styles.textStyle}>
                                     <Text style={{ color: '#2e2f30' }}>{item.name}</Text>
                                     <View style={styles.priceStyle}>
+                                        <Text style={{ textDecorationLine: 'line-through', fontSize: 10, color: 'gray', textDecorationStyle: 'solid' }}>
+                                            Rs {item.price} /
+                                        </Text>
                                         <Text style={{ color: '#2e2f30', fontSize: 12 }}>Rs {item.qty * (item.price - (item.price * item.discount / 100))}</Text>
                                     </View>
                                 </View>
-
                                 <View style={styles.counterStyle}>
                                     <Icon
                                         name="ios-remove"
@@ -71,6 +83,12 @@ const Cart = (props) => {
                     <View style={styles.totalStyle}>
                         <Text style={styles.text}>Total - </Text>
                         <Text style={styles.text}>Rs {getTotalPrice()}</Text>
+                    </View>
+                </View>
+                <View style={{ ...styles.totalContainerStyle, justifyContent: 'center' }}>
+                    <View style={styles.totalStyle}>
+                        <Text style={styles.text}>Total Discount - </Text>
+                        <Text style={styles.text}>Rs {getTotalDsicount()}</Text>
                     </View>
                 </View>
                 <View style={styles.buttonContainerStyle}>
@@ -112,7 +130,7 @@ const styles = {
         backgroundColor: '#fff'
     },
     containterStyle: {
-        flex: 4,
+        flex: 3,
         backgroundColor: '#DCDCDC'
     },
     lastItemStyle: {

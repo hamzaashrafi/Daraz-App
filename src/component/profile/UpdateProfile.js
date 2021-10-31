@@ -11,40 +11,21 @@ import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import BottomSheet from 'reanimated-bottom-sheet';
 import Animated, { color } from 'react-native-reanimated';
-import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux';
 import { updateUser } from '../../store/actions'
+import ImagePickerComponent from '../common/imagePicker'
+import { toast } from '../../shared';
 
 const UpdateProfile = (props) => {
     const { user, updateUser } = props
     const { colors } = useTheme();
-    const [image, setImage] = useState('https://api.adorable.io/avatars/80/abott@adorable.png');
     const [currentUser, setCurrentUser] = useState(user)
     const [userData, setUserData] = useState({})
 
     useEffect(() => {
         setCurrentUser(user)
     }, [user])
-
-    const takePhotoFromCamera = () => {
-        const obj = { compressImageMaxWidth: 300, compressImageMaxHeight: 300, cropping: true, compressImageQuality: 0.7, includeBase64: true }
-        ImagePicker.openCamera(obj).then(image => {
-            console.log(image);
-            setImage(image);
-            bs.current.snapTo(1);
-        });
-    }
-
-    const choosePhotoFromLibrary = () => {
-        const obj = { width: 300, height: 300, cropping: true, compressImageQuality: 0.7, includeBase64: true }
-        ImagePicker.openPicker(obj).then(image => {
-            console.log(image);
-            setImage(image);
-            bs.current.snapTo(1);
-        });
-    }
 
     const InputHandler = (value, name) => {
         const data = { ...userData }
@@ -61,82 +42,44 @@ const UpdateProfile = (props) => {
                 obj[key] = value;
             }
         }
-        if (image) {
-            obj.image = image
-        }
         if (Object.keys(obj).length) {
-            console.log(obj);
+            console.log('obj', obj);
+            const headers = {
+                userid: currentUser._id
+            }
+            updateUser(obj, headers)
         }
-        const headers = {
-            userid: currentUser._id
-        }
-        updateUser(obj, headers)
     }
 
-    renderInner = () => (
-        <View style={styles.panel}>
-            <View style={{ alignItems: 'center' }}>
-                <Text style={styles.panelTitle}>Upload Photo</Text>
-                <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
-            </View>
-            <TouchableOpacity style={styles.panelButton} onPress={takePhotoFromCamera}>
-                <Text style={styles.panelButtonTitle}>Take Photo</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.panelButton} onPress={choosePhotoFromLibrary}>
-                <Text style={styles.panelButtonTitle}>Choose From Library</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.panelButton}
-                onPress={() => bs.current.snapTo(1)}>
-                <Text style={styles.panelButtonTitle}>Cancel</Text>
-            </TouchableOpacity>
-        </View>
-    );
 
-    renderHeader = () => (
-        <View style={styles.header}>
-            <View style={styles.panelHeader}>
-                <View style={styles.panelHandle} />
-            </View>
-        </View>
-    );
+    const onImageHandler = (env) => {
+        try {
+            console.log('env', env);
+            const image = `data:${env.mime};base64,${env.data}`
+            console.log('image', image);
+            setUserData({ ...userData, image })
+        } catch (error) {
+            console.log('error.message', error.message);
+            toast('error', error.message)
+        }
+    };
 
-    bs = React.createRef();
-    fall = new Animated.Value(1);
 
     return (
         <View style={styles.container}>
-            <BottomSheet
-                ref={bs}
-                snapPoints={[330, 0]}
-                renderContent={renderInner}
-                renderHeader={renderHeader}
-                initialSnap={1}
-                callbackNode={fall}
-                enabledGestureInteraction={true}
-            />
-            <Animated.View style={{ margin: 20, opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)), }}>
+            <Animated.View style={{ margin: 20, }}>
                 <View style={{ alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => bs.current.snapTo(0)}>
-                        <View
-                            style={{ height: 100, width: 100, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
-                            <ImageBackground source={{ uri: image, }}>
-                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                                    <Icon
-                                        name="camera"
-                                        size={35}
-                                        // color="#fff"
-                                        style={{
-                                            opacity: 0.7,
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            borderWidth: 1,
-                                            borderRadius: 10,
-                                        }} />
-                                </View>
-                            </ImageBackground>
+                    <View
+                        style={{ height: 100, width: 100, borderRadius: 15, marginBottom: 50, justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                            <ImagePickerComponent
+                                label={''}
+                                openfrom={'add_profile_Image'}
+                                handleImage={val => onImageHandler(val)}
+                                displayImage={currentUser.image}
+                            />
                         </View>
-                    </TouchableOpacity>
+                    </View>
                     <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold' }}>{currentUser.name}</Text>
                 </View>
                 <View style={styles.action}>
@@ -292,4 +235,5 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         color: '#05375a',
     },
+
 });

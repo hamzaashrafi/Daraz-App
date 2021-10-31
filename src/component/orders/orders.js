@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, SafeAreaView, StyleSheet, FlatList } from 'react-native'
+import { Text, View, SafeAreaView, StyleSheet, FlatList ,Image} from 'react-native'
 import { connect } from 'react-redux';
 
 class Orders extends Component {
@@ -43,6 +43,7 @@ class Orders extends Component {
                                 {item.items.map((data, idx) => {
                                     return <View style={styles.item} key={idx}>
                                         <View style={styles.inRow}>
+                                            <Image source={{ uri: data.data.image }} style={styles.imageStyle} />
                                             <Text style={styles.gray}> {data.data.name}  </Text>
                                             <Text style={styles.gray}> X {data.qty}  </Text>
                                         </View>
@@ -108,5 +109,10 @@ const styles = StyleSheet.create({
         margin: 10,
         flexDirection: 'row',
         justifyContent: 'space-between'
-    }
+    },
+    imageStyle: {
+        width: 60,
+        height: 30,
+        marginRight: 20
+    },
 })

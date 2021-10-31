@@ -98,7 +98,7 @@ export default connect(mapStateToProps, { onDispatchOrder })(Chechkout);
 
 
 const styles = StyleSheet.create({
-    textFeild: { backgroundColor: 'lightgray', borderRadius: 10, padding: 10, borderBottomColor: '#6f6f6f', marginBottom: 40 },
+    textFeild: { backgroundColor: 'lightgray', borderRadius: 10, padding: 10, color: 'black', borderBottomColor: '#6f6f6f', marginBottom: 40 },
     mainDiv: { padding: 10, paddingBottom: 0, borderBottomWidth: 1, borderBottomColor: '#e1e1e1', marginBottom: 5 },
     heading2: { color: 'black', fontSize: 20, textAlign: 'left', paddingBottom: 20 },
     checkoutButtonStyle: {

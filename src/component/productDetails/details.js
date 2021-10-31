@@ -62,7 +62,7 @@ class Details extends Component {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                                 <Text style={{ textDecorationLine: 'line-through', color: 'gray', fontSize: 12, textDecorationStyle: 'solid', color: 'black' }}>
-                                    Rs {selectedProduct.price}
+                                    Rs {selectedProduct.price} /
                                 </Text>
                                 <Text style={{ marginHorizontal: 2, color: 'black' }}>Rs {selectedProduct.price - (selectedProduct.price * selectedProduct.discount / 100)}</Text>
                             </View>

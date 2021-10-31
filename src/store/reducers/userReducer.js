@@ -18,11 +18,11 @@ function userReducer(state = initialState, action) {
             return { ...state, isUserGetting: false };
 
         case types.UPDATE_USER_START:
-            return { ...state, };
+            return { ...state, isUserGetting: true };
         case types.UPDATE_USER_SUCCESS:
-            return { ...state, user: action.user };
+            return { ...state, user: action.user, isUserGetting: false };
         case types.UPDATE_USER_FILED:
-            return { ...state, };
+            return { ...state, isUserGetting: false };
 
         case types.GET_FAVORITE_PRODUCTS_OF_USER:
             return { ...state, user: action.user };
