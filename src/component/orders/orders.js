@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         margin: 20,
         marginBottom: 0,
         padding: 20,
-        borderRadius: 15,
+        borderRadius: 10,
         borderBottomColor: 'lightgray',
         borderBottomWidth: 1,
     },
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         marginBottom: 0,
         marginTop: 0,
         padding: 20,
-        borderRadius: 15,
+        borderRadius: 10,
     },
     item: {
         margin: 10,

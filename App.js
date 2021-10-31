@@ -7,8 +7,8 @@ import { StatusBar } from 'react-native';
 import auth from '@react-native-firebase/auth'
 import { signout, resetSigninUserState, getProducts, getCartDate } from './src/store/actions'
 import { getAppStorage } from './src/shared';
-import { LogBox} from 'react-native';
-
+import { LogBox } from 'react-native';
+import RNBootSplash from "react-native-bootsplash";
 class App extends Component {
 
   constructor(props) {
@@ -20,6 +20,9 @@ class App extends Component {
 
 
   async componentDidMount() {
+    setTimeout(() => {
+    RNBootSplash.hide()
+    }, 1000);
     LogBox.ignoreLogs(['Setting a timer for a long period of time'])
     auth().onAuthStateChanged(async userAuth => {
       console.log("userAuth ", userAuth)
@@ -29,7 +32,7 @@ class App extends Component {
         } else {
           store.dispatch(signout())
         }
-      }
+      }x  
     });
     const cartData = await getAppStorage('cartData') || []
     store.dispatch(getCartDate(cartData))
