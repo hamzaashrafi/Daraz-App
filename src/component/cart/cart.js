@@ -4,6 +4,7 @@ import { Text, View, FlatList, Image, SafeAreaView, TouchableOpacity } from 'rea
 import Icon from 'react-native-vector-icons/Ionicons';
 import { onAddToCart, removeCartData, removeProductInCartData } from '../../store/actions'
 import { Button } from 'native-base'
+import FastImage from 'react-native-fast-image'
 
 const Cart = (props) => {
     const { cartData, navigation, onAddToCart, removeCartData, removeProductInCartData } = props
@@ -36,7 +37,16 @@ const Cart = (props) => {
                     renderItem={({ item, index }) => {
                         return (
                             <View key={index} style={(index + 1 === cartData.length) ? styles.lastItemStyle : styles.containerStyle}>
-                                <Image source={{ uri: item.image }} style={styles.imageStyle} />
+                                <FastImage
+                                    source={{
+                                        uri: item.image,
+                                        headers: { Authorization: item.image },
+                                        priority: FastImage.priority.high
+                                    }}
+                                    resizeMethod="resize"
+                                    resizeMode="cover"
+                                    style={styles.imageStyle}
+                                />
 
                                 <View style={styles.textStyle}>
                                     <Text style={{ color: '#2e2f30' }}>{item.name}</Text>
@@ -143,7 +153,9 @@ const styles = {
     imageStyle: {
         width: 80,
         height: 50,
-        marginRight: 20
+        marginRight: 20,
+        alignSelf: "center",
+        resizeMode: "cover"
     },
     textStyle: {
         flex: 0.7,

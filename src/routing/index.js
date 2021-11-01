@@ -66,7 +66,7 @@ class Routing extends Component {
                         drawerContent={props => <DrawerContent {...props} />}
                         screenOptions={{ headerShown: false }}
                     >
-                        <Drawer.Screen name="Home" component={MainTabScreen} />
+                        <Drawer.Screen name="HomeComponent" component={MainTabScreen} />
                         <Drawer.Screen name="Profile" component={ProfileComponent} />
                         <Drawer.Screen name="Login" component={LoginComponent} />
                         <Drawer.Screen name="Signup" component={SignupComponent} />

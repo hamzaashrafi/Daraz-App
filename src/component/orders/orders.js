@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, SafeAreaView, StyleSheet, FlatList ,Image} from 'react-native'
+import { Text, View, SafeAreaView, StyleSheet, FlatList, Image } from 'react-native'
 import { connect } from 'react-redux';
+import FastImage from 'react-native-fast-image'
+import { formatAMPM } from '../../shared';
 
 class Orders extends Component {
 
@@ -35,7 +37,10 @@ class Orders extends Component {
                                     <Text style={styles.black}> Rs {item.price} </Text>
                                 </View>
                                 <View style={styles.inRow}>
-                                    <Text style={styles.gray}> {new Date(item.create_at).toLocaleString()}</Text>
+                                    <View style={styles.inRow}>
+                                        <Text style={styles.gray}> {new Date(item.create_at).toLocaleDateString('en-US')}</Text>
+                                        <Text style={styles.gray}> {formatAMPM(new Date(item.create_at))}</Text>
+                                    </View>
                                     <Text style={styles.gray}> {item.items.length} items </Text>
                                 </View>
                             </View>
@@ -43,7 +48,16 @@ class Orders extends Component {
                                 {item.items.map((data, idx) => {
                                     return <View style={styles.item} key={idx}>
                                         <View style={styles.inRow}>
-                                            <Image source={{ uri: data.data.image }} style={styles.imageStyle} />
+                                            <FastImage
+                                                source={{
+                                                    uri: data.data.image,
+                                                    headers: { Authorization: data.data.image },
+                                                    priority: FastImage.priority.high
+                                                }}
+                                                resizeMethod="resize"
+                                                resizeMode="cover"
+                                                style={styles.imageStyle}
+                                            />
                                             <Text style={styles.gray}> {data.data.name}  </Text>
                                             <Text style={styles.gray}> X {data.qty}  </Text>
                                         </View>
@@ -113,6 +127,8 @@ const styles = StyleSheet.create({
     imageStyle: {
         width: 60,
         height: 30,
-        marginRight: 20
+        marginRight: 20,
+        alignSelf: "center",
+        resizeMode: "cover"
     },
 })

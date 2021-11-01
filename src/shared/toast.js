@@ -2,17 +2,12 @@
 import { ToastAndroid } from "react-native";
 
 export const toast = (type, msg, duration = 6000) => {
-    ToastAndroid.showWithGravity(msg, duration,
-        ToastAndroid.BOTTOM,
-        25,
-        50
-    )
     ToastAndroid.showWithGravityAndOffset(
         msg,
-        ToastAndroid.LONG,
+        duration,
         ToastAndroid.BOTTOM,
         25,
-        50
+        60
     );
 
     // console.log(type, msg)
