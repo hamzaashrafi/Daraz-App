@@ -125,10 +125,12 @@ export const getOrders = (headers) => async (dispatch) => {
 
 export const addtofavorites = (payload, headers) => async (dispatch) => {
     try {
+        dispatch({ type: types.GET_FAVORITE_PRODUCTS_OF_USER_START });
         const { data } = await httpRequest.post("customer/addtofavorites", payload, { headers });
         console.log('addtofavorites', data);
-        dispatch({ type: types.GET_FAVORITE_PRODUCTS_OF_USER, user: data });
+        dispatch({ type: types.GET_FAVORITE_PRODUCTS_OF_USER_SUCCESS, user: data });
     } catch (error) {
+        dispatch({ type: types.GET_FAVORITE_PRODUCTS_OF_USER_FILED });
         console.log('addtofavorites', error.message || error)
         toast('error', error.reason || error.message);
     }

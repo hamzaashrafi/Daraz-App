@@ -4,7 +4,9 @@ import { types } from '../actionTypes';
 let initialState = {
     user: {},
     isUserExist: false,
-    isUserGetting: false
+    isUserGetting: false,
+    isUserFavoriteGetting: false,
+
 };
 
 function userReducer(state = initialState, action) {
@@ -24,8 +26,12 @@ function userReducer(state = initialState, action) {
         case types.UPDATE_USER_FILED:
             return { ...state, isUserGetting: false };
 
-        case types.GET_FAVORITE_PRODUCTS_OF_USER:
-            return { ...state, user: action.user };
+        case types.GET_FAVORITE_PRODUCTS_OF_USER_START:
+            return { ...state, isUserFavoriteGetting: true };
+        case types.GET_FAVORITE_PRODUCTS_OF_USER_SUCCESS:
+            return { ...state, user: action.user, isUserFavoriteGetting: false };
+        case types.GET_FAVORITE_PRODUCTS_OF_USER_FILED:
+            return { ...state, isUserFavoriteGetting: false };
 
         case types.SING_OUT:
             return { ...state, user: {}, isUserExist: false };

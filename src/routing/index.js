@@ -52,11 +52,11 @@ class Routing extends Component {
     };
 
     render() {
-        const { isUserGetting, isProductGetting, isOrderGetting } = this.props
+        const { isUserGetting, isProductGetting, isOrderGetting, isUserFavoriteGetting } = this.props
         return (
             <PaperProvider theme={CustomDefaultTheme}>
                 <Spinner
-                    visible={isUserGetting || isProductGetting || isOrderGetting}
+                    visible={isUserGetting || isProductGetting || isOrderGetting || isUserFavoriteGetting}
                     textContent={'Loading...'}
                     textStyle={{ color: 'white' }}
                 />
@@ -83,6 +83,7 @@ const mapStateToProps = (props) => {
         isUserExist: users.isUserExist,
         user: users.user,
         isUserGetting: users.isUserGetting,
+        isUserFavoriteGetting: users.isUserFavoriteGetting,
         isProductGetting: products.isProductGetting,
         isOrderGetting: products.isOrderGetting,
     };
