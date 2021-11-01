@@ -32,7 +32,7 @@ class App extends Component {
         } else {
           store.dispatch(signout())
         }
-      }x  
+      }
     });
     const cartData = await getAppStorage('cartData') || []
     store.dispatch(getCartDate(cartData))

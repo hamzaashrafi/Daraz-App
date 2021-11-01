@@ -7,6 +7,13 @@ export const toast = (type, msg, duration = 6000) => {
         25,
         50
     )
+    ToastAndroid.showWithGravityAndOffset(
+        msg,
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50
+    );
 
     // console.log(type, msg)
     // if (type === 'error') {

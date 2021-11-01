@@ -3,7 +3,8 @@ import Icons from 'react-native-vector-icons/Ionicons';
 import { Box, Heading, AspectRatio, Image, Text, Center, HStack, Stack, FlatList } from 'native-base';
 import { onSelectProduct, addtofavorites } from '../../store/actions'
 import { connect } from 'react-redux';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, TouchableOpacity } from 'react-native';
+import FastImage from 'react-native-fast-image'
 
 class CardComponent extends Component {
 
@@ -61,38 +62,52 @@ class CardComponent extends Component {
                             _light={{ backgroundColor: 'gray.200' }}
                             _dark={{ backgroundColor: 'gray.700' }}>
                             <Box>
-                                <AspectRatio ratio={10 / 9} onTouchEnd={() => this.onselect(item)}>
-                                    <Image source={{ uri: item.image }} style={{ borderRadius: 30 }} alt="image" />
-                                </AspectRatio>
+                                <TouchableOpacity onPress={() => this.onselect(item)} activeOpacity={20}>
+                                    <AspectRatio ratio={10 / 9}>
+                                        <FastImage
+                                            source={{
+                                                uri: item.image,
+                                                headers: { Authorization: item.image },
+                                                priority: FastImage.priority.high
+                                            }}
+                                            resizeMethod="resize"
+                                            resizeMode="cover"
+                                            style={{ width: "100%", height: "100%", borderRadius: 30, alignSelf: "center", resizeMode: "cover" }}
+                                        />
+                                    </AspectRatio>
+                                </TouchableOpacity>
                                 <Center position="absolute" top={0} right={0} px="1.5" py="1.5">
                                     <Icons name="ios-heart" onPress={() => this.addtofavorites(item)} color={favorite ? "#009387" : 'white'} size={25} />
                                 </Center>
                             </Box>
-                            <Stack p="4" space={3} onTouchEnd={() => this.onselect(item)}>
-                                <Stack space={2}>
-                                    <Heading size="sm" ml="-1">{item.name}</Heading>
-                                    <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                                        <Text style={{ textDecorationLine: 'line-through', color: 'gray', fontSize: 12, textDecorationStyle: 'solid' }}>
-                                            Rs {item.price} /
+                            <TouchableOpacity onPress={() => this.onselect(item)} activeOpacity={20}>
+                                <Stack p="4" space={3} >
+                                    <Stack space={2}>
+                                        <Heading size="sm" ml="-1">{item.name}</Heading>
+                                        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                                            <Text style={{ textDecorationLine: 'line-through', color: 'gray', fontSize: 12, textDecorationStyle: 'solid' }}>
+                                                Rs {item.price} /
+                                            </Text>
+                                            <Text style={{ marginHorizontal: 2 }}>Rs {item.price - (item.price * item.discount / 100)}</Text>
+                                        </View>
+                                        <Text
+                                            fontSize="xs"
+                                            _light={{ color: 'violet.500' }}
+                                            _dark={{ color: 'violet.300' }}
+                                            fontWeight="500"
+                                            numberOfLines={1}
+                                            ml="-0.5"
+                                            mt="-1">
+                                            {item.description}
                                         </Text>
-                                        <Text style={{ marginHorizontal: 2 }}>Rs {item.price - (item.price * item.discount / 100)}</Text>
-                                    </View>
-                                    <Text
-                                        fontSize="xs"
-                                        _light={{ color: 'violet.500' }}
-                                        _dark={{ color: 'violet.300' }}
-                                        fontWeight="500"
-                                        ml="-0.5"
-                                        mt="-1">
-                                        {item.description}
-                                    </Text>
-                                </Stack>
-                                <HStack alignItems="center" space={4} justifyContent="space-between">
-                                    <HStack alignItems="center">
-                                        <Text color="gray.500" fontWeight="400">{item.category}</Text>
+                                    </Stack>
+                                    <HStack alignItems="center" space={4} justifyContent="space-between">
+                                        <HStack alignItems="center">
+                                            <Text color="gray.500" fontWeight="400">{item.category}</Text>
+                                        </HStack>
                                     </HStack>
-                                </HStack>
-                            </Stack>
+                                </Stack>
+                            </TouchableOpacity>
                         </Box>
                     }}
                 />

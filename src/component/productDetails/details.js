@@ -13,6 +13,7 @@ import Icons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { onAddToCart, addtofavorites } from '../../store/actions'
+import FastImage from 'react-native-fast-image'
 
 
 class Details extends Component {
@@ -48,8 +49,17 @@ class Details extends Component {
                 <StatusBar barStyle="light-content" />
                 <ScrollView style={{ height: '90%' }}>
                     <Box>
-                        <AspectRatio ratio={10 / 8}>
-                            <Image source={{ uri: selectedProduct.image }} alt="image" />
+                        <AspectRatio ratio={10 / 10}>
+                            <FastImage
+                                source={{
+                                    uri: selectedProduct.image,
+                                    headers: { Authorization: selectedProduct.image },
+                                    priority: FastImage.priority.high
+                                }}
+                                resizeMethod="resize"
+                                resizeMode="cover"
+                                style={{ width: "100%", height: "100%", alignSelf: "center", resizeMode: "cover" }}
+                            />
                         </AspectRatio>
                         <Center position="absolute" top={0} right={0} px="1.5" py="1.5">
                             <Icons name="ios-heart" color={favorite ? "#009387" : 'white'} size={40} onPress={() => this.addtofavorites()} />
