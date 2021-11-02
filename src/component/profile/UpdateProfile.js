@@ -80,7 +80,7 @@ const UpdateProfile = (props) => {
                             />
                         </View>
                     </View>
-                    <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold' }}>{currentUser.name}</Text>
+                    <Text style={{ marginTop: 10, fontSize: 18, fontWeight: 'bold' }}>{currentUser.name || currentUser.full_name}</Text>
                 </View>
                 <View style={styles.action}>
                     <FontAwesome name="user-o" color={colors.text} size={20} />
@@ -88,7 +88,7 @@ const UpdateProfile = (props) => {
                         placeholder="Name"
                         placeholderTextColor="#666666"
                         autoCorrect={false}
-                        value={(userData.name || userData.name === '') ? userData.name : currentUser.name}
+                        value={(userData.name || userData.name === '') ? userData.name : currentUser.name || currentUser.full_name}
                         onChangeText={(event) => InputHandler(event, 'name')}
                         style={[styles.textInput, { color: colors.text, }]}
                     />

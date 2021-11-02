@@ -56,7 +56,7 @@ class DrawerContent extends Component {
                                         size={50}
                                     />
                                     <View style={{ marginLeft: 15, flexDirection: 'column' }}>
-                                        <Title style={styles.title}>{user.name}</Title>
+                                        <Title style={styles.title}>{user.name || user.full_name}</Title>
                                         {/* <Caption style={styles.caption}>@j_doe</Caption> */}
                                     </View>
                                 </View>

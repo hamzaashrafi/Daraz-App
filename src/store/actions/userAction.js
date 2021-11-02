@@ -85,5 +85,5 @@ export const updateUser = (payload, headers) => async (dispatch) => {
 };
 
 export const resetSigninUserState = (user) => (dispatch) => {
-    dispatch(createUserInDatabase({ email: user.email, name: user.displayName || user.email.split('@')[0] }));
+    dispatch(createUserInDatabase({ email: user.email, full_name: user.displayName || user.email.split('@')[0] }));
 };
