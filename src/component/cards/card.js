@@ -47,70 +47,75 @@ class CardComponent extends Component {
         // }
         return (
             <SafeAreaView>
-                <FlatList
-                    data={data}
-                    numColumns={2}
-                    keyExtractor={(item) => item.price}
-                    renderItem={({ item, index }) => {
-                        const favorite = (user.favorite_product || []).find(pro => pro === item._id);
-                        console.log('favorite', favorite);
-                        return <Box
-                            key={index}
-                            rounded="sm"
-                            style={{ width: '45%', margin: 10, padding: 9, height: '95%', borderRadius: 20 }}
-                            shadow={1}
-                            _light={{ backgroundColor: 'gray.200' }}
-                            _dark={{ backgroundColor: 'gray.700' }}>
-                            <Box>
+                {data && data.length
+                    ? <FlatList
+                        data={data}
+                        numColumns={2}
+                        keyExtractor={(item) => item.price}
+                        renderItem={({ item, index }) => {
+                            const favorite = (user.favorite_product || []).find(pro => pro === item._id);
+                            console.log('favorite', favorite);
+                            return <Box
+                                key={index}
+                                rounded="sm"
+                                style={{ width: '45%', margin: 10, padding: 9, height: '95%', borderRadius: 20 }}
+                                shadow={1}
+                                _light={{ backgroundColor: 'gray.200' }}
+                                _dark={{ backgroundColor: 'gray.700' }}>
+                                <Box>
+                                    <TouchableOpacity onPress={() => this.onselect(item)} activeOpacity={20}>
+                                        <AspectRatio ratio={10 / 9}>
+                                            <FastImage
+                                                source={{
+                                                    uri: item.image,
+                                                    headers: { Authorization: item.image },
+                                                    priority: FastImage.priority.high
+                                                }}
+                                                resizeMethod="resize"
+                                                resizeMode="cover"
+                                                style={{ width: "100%", height: "100%", borderRadius: 30, alignSelf: "center", resizeMode: "cover" }}
+                                            />
+                                        </AspectRatio>
+                                    </TouchableOpacity>
+                                    <Center position="absolute" top={0} right={0} px="1.5" py="1.5">
+                                        <Icons name="ios-heart" onPress={() => this.addtofavorites(item)} color={favorite ? "#009387" : 'white'} size={25} />
+                                    </Center>
+                                </Box>
                                 <TouchableOpacity onPress={() => this.onselect(item)} activeOpacity={20}>
-                                    <AspectRatio ratio={10 / 9}>
-                                        <FastImage
-                                            source={{
-                                                uri: item.image,
-                                                headers: { Authorization: item.image },
-                                                priority: FastImage.priority.high
-                                            }}
-                                            resizeMethod="resize"
-                                            resizeMode="cover"
-                                            style={{ width: "100%", height: "100%", borderRadius: 30, alignSelf: "center", resizeMode: "cover" }}
-                                        />
-                                    </AspectRatio>
-                                </TouchableOpacity>
-                                <Center position="absolute" top={0} right={0} px="1.5" py="1.5">
-                                    <Icons name="ios-heart" onPress={() => this.addtofavorites(item)} color={favorite ? "#009387" : 'white'} size={25} />
-                                </Center>
-                            </Box>
-                            <TouchableOpacity onPress={() => this.onselect(item)} activeOpacity={20}>
-                                <Stack p="4" space={3} >
-                                    <Stack space={2}>
-                                        <Heading size="sm" ml="-1">{item.name}</Heading>
-                                        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                                            <Text style={{ textDecorationLine: 'line-through', color: 'gray', fontSize: 12, textDecorationStyle: 'solid' }}>
-                                                Rs {item.price} /
+                                    <Stack p="4" space={3} >
+                                        <Stack space={2}>
+                                            <Heading size="sm" ml="-1">{item.name}</Heading>
+                                            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                                                <Text style={{ textDecorationLine: 'line-through', color: 'gray', fontSize: 12, textDecorationStyle: 'solid' }}>
+                                                    Rs {item.price} /
+                                                </Text>
+                                                <Text style={{ marginHorizontal: 2 }}>Rs {item.price - (item.price * item.discount / 100)}</Text>
+                                            </View>
+                                            <Text
+                                                fontSize="xs"
+                                                _light={{ color: 'violet.500' }}
+                                                _dark={{ color: 'violet.300' }}
+                                                fontWeight="500"
+                                                numberOfLines={1}
+                                                ml="-0.5"
+                                                mt="-1">
+                                                {item.description}
                                             </Text>
-                                            <Text style={{ marginHorizontal: 2 }}>Rs {item.price - (item.price * item.discount / 100)}</Text>
-                                        </View>
-                                        <Text
-                                            fontSize="xs"
-                                            _light={{ color: 'violet.500' }}
-                                            _dark={{ color: 'violet.300' }}
-                                            fontWeight="500"
-                                            numberOfLines={1}
-                                            ml="-0.5"
-                                            mt="-1">
-                                            {item.description}
-                                        </Text>
-                                    </Stack>
-                                    <HStack alignItems="center" space={4} justifyContent="space-between">
-                                        <HStack alignItems="center">
-                                            <Text color="gray.500" fontWeight="400">{item.category}</Text>
+                                        </Stack>
+                                        <HStack alignItems="center" space={4} justifyContent="space-between">
+                                            <HStack alignItems="center">
+                                                <Text color="gray.500" fontWeight="400">{item.category}</Text>
+                                            </HStack>
                                         </HStack>
-                                    </HStack>
-                                </Stack>
-                            </TouchableOpacity>
-                        </Box>
-                    }}
-                />
+                                    </Stack>
+                                </TouchableOpacity>
+                            </Box>
+                        }}
+                    />
+                    : <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 250, marginHorizontal: 50 }}>
+                        <Text style={{ color: 'black' }}>No Product Found </Text>
+                        <Text style={{ color: 'gray', textAlign: 'center' }}>Check your internet or no product found in our store</Text>
+                    </View>}
             </SafeAreaView>
         )
     }
